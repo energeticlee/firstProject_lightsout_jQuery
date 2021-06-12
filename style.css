@@ -1,0 +1,139 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 62.5%;
+}
+
+:root {
+    --primary-color: #D955B5;
+    --secondary-color: #9163BF;
+    --accent-color: #9aaad9;
+    --extra-color: #98daf2;
+}
+
+body {
+    font-size: 1.6rem;
+    margin: 0;
+    background: var(--accent-color);
+}
+
+/* Top Header */
+
+header {
+    background: var(--secondary-color);
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 4.2rem;
+    margin: 20px 0 10px 0;
+    padding: 0;
+}
+h2 {
+    margin: 5px;
+}
+
+.btn_header {
+    font-weight: 600;
+    font-size: 2.4rem;
+    border: 2px solid var(--primary-color);
+    box-shadow: 1px 1px 5px 2px var(--primary-color);
+    padding: 15px;
+    border-radius: 10px;
+    background: var(--accent-color);
+    border-color: sec;
+    margin: 20px 0 10px 0;
+}
+
+/* Main Game Play */
+
+.container {
+    display: grid;
+    justify-content: center;
+    max-width: 100%;
+    margin: 20px;
+    grid-template: repeat(4, 100px) / repeat(4, 100px);
+    background: var(--primary-color);
+}
+.box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-color);
+    height: 100px;
+    width: 100px;
+    border: 1px solid var(--accent-color);
+}
+
+.itBox {
+    background-color: gold;
+}
+
+p {
+    font-weight: 600;
+}
+
+/* Reward Box */
+
+.resultBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    opacity: 0.85;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+.resultValue {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: white;
+}
+
+.playAgainButton, .buyButton {
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    margin: 5px;
+    background: var(--secondary-color);
+    border: 2px solid black;
+    opacity: 1;
+    border-radius: 20px;
+    box-shadow: 1px 1px 5px black;
+}
+
+/* Main game Footer */
+
+.footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100vw;
+    background: var(--secondary-color);
+    height: 100px;
+}
+
+.scoreContainer {
+    text-align: center;
+    margin: 0;
+}
+
+.scorePoints, h3, .level, .life {
+    font-size: 2.4rem;
+    font-weight: bold;
+    margin: 10px;
+}
+
+/* Shop */
+.buyALife {
+    color: white;
+    font-size: 2rem;
+}
+
