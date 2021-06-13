@@ -1,10 +1,10 @@
 // BUG //
 // Quick space while button not fully hidden
+// keydown trigger before page ready [Add await]
 
 // to do //
 // create array of messages
 // hide jquery for animation
-// fixed negative points
 
 /////////////////////////////////////////////////////////
 // Code Map
@@ -281,7 +281,7 @@ $attemptTrigger = $("body").on("keydown", () => {
     for (let y = 0; y < $gridValue; y++) {
         if ($(".box" + y).attr("class").includes("itBox")) {
             if ($(".box" + y).text() === "BOMB") {
-                score -= 20
+                score <= 20 ? score = 0 : score -= 20
                 life--
             }
             else if ($(".box" + y).text() === "5 Points") {
@@ -304,11 +304,11 @@ $attemptTrigger = $("body").on("keydown", () => {
 
 $result = () => {
     if (life > 0) {
-        $resultValueWin.text(score)
+        $resultValueWin.text(score + " Points")
         $(".grid").append($resultBoxWinContainer)
     }
     else {
-        $resultValueLose.text(score)
+        $resultValueLose.text(score + " Points")
         $(".grid").append($resultBoxLoseContainer)
     }
     $playAgainBtn.on("click", () => {
