@@ -233,7 +233,6 @@ const speed = () => {
 /////////////////////////////////////////////////////////
 
 startGame = async () => {
-    console.log(speed())
     $lifePoints.text(life)
     $stagePoints.text(stage)
     $scorePoints.text(score)
@@ -250,9 +249,9 @@ startGame = async () => {
         while (i < parseInt($gridValue) + 1) {
             await sleep(speed())
             $attemptTrigger //stop +1 causing color to stop running
-            attempt === 0 || life === 0 ? i = 20 :
+            attempt === 0 || life === 0 ? i = 100 :
                 $(".box" + i).addClass("itBox")
-            attempt === 0 || life === 0 ? i = 20 :
+            attempt === 0 || life === 0 ? i = 100 :
                 $(".box" + (i - 1)).removeClass("itBox")
             i++
         }
