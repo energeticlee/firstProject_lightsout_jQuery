@@ -1,3 +1,7 @@
+// BUG //
+// stage 2 when life = 0 trigger both continue and tryagain button
+
+// to do //
 // Radio button to select difficulty Stage
 // Buy button to decrease point and increase life
 // hide jquery for animation
@@ -67,6 +71,14 @@ $("body").append($gameDifficulty.append($easy).append($normal).append($hard))
 const $footerContainer = $("<div>").addClass("footer hide")
 
 /////////////////////////////////////////////////////////
+// Life
+/////////////////////////////////////////////////////////
+
+const $lifeContainer = $("<div>").addClass("lifeContainer")
+const $lifeTitle = $("<h3>").addClass("lifeTitle").text("Life")
+const $lifePoints = $("<p>").addClass("lifePoints")
+
+/////////////////////////////////////////////////////////
 // Stage Board
 /////////////////////////////////////////////////////////
 
@@ -93,7 +105,8 @@ const $buyALife = $("<p>").addClass("buyALife").text("Need a boost? Get one life
 const $buyButton = $("<button>").addClass("buyButton").text("Buy Now!")
 const $continue = $("<button>").addClass("continue").text("Continue")
 
-const $playAgainBtn = $("<button>").addClass("playAgainButton").text("Game Over :(")
+const $restart = $("<p>").addClass("restart").text("Game over loser!")
+const $playAgainBtn = $("<button>").addClass("playAgainButton").text("Try again!")
 
 /////////////////////////////////////////////////////////
 // Function
@@ -110,17 +123,16 @@ const buildBoard = (e) => {
     $(".grid").remove()
     $gridValue = $(e.target).attr("value")
     gameSize = $gridValue      //assign button with value
+    const gridContainer = $("<div>").addClass("gridContainer")
     const $grid = $("<div>").addClass("grid grid" + $gridValue)
 
-    let numBomb = boardDifficulty()
-    let mixedArray = boardMixer(numBomb)
-
     for (let i = 0; i < $gridValue; i++) {
-        const $boxP = $("<p>").addClass("boxText" + i).text(mixedArray[i])
+        const $boxP = $("<p>").addClass("boxText" + i).text("?")
         $grid.append($("<div>").addClass("box box" + i).append($boxP))
     }
 
-    $("body").append($grid).append($footerContainer.append($("<button>").addClass("playBtn").text("Start Game!")).append($scoreContainer).append($stageContainer))
+    $("body").append(gridContainer.append($grid)).append($footerContainer.append($("<button>").addClass("playBtn").text("Start Game!")).append($lifeContainer).append($scoreContainer).append($stageContainer))
+    $lifeContainer.append($lifeTitle).append($lifePoints.text(life))
     $scoreContainer.append($scoreTitle).append($scorePoints.text(score))
     $stageContainer.append($stageTitle).append($stagePoints.text(stage))
 
@@ -194,24 +206,25 @@ const speed = () => {
 /////////////////////////////////////////////////////////
 
 startGame = async () => {
+    $lifePoints.text(life)
     $stagePoints.text(stage)
+    $scorePoints.text(score)
 
     let numBomb = boardDifficulty()
     let mixedArray = boardMixer(numBomb)
 
     for (let a = 0; a < $gridValue; a++) {
-        $("boxText" + a).text(mixedArray[a])
+        $(".boxText" + a).text(mixedArray[a])
     }
 
-
-    while (attempt > 0) {
+    while (attempt > 0 && life > 0) {
         let i = 0
         while (i < parseInt(gameSize) + 1) {
             await sleep(speed())
             $attemptTrigger //stop +1 causing color to stop running
-            attempt === 0 ? i = 20 :
+            attempt === 0 || life === 0 ? i = 20 :
                 $(".box" + i).addClass("itBox")
-            attempt === 0 ? i = 20 :
+            attempt === 0 || life === 0 ? i = 20 :
                 $(".box" + (i - 1)).removeClass("itBox")
             i++
         }
@@ -237,19 +250,20 @@ sleep = (duration) => {
 
 $attemptTrigger = $("body").on("keydown", () => {
     attempt--
-    $result()
     for (let y = 0; y < gameSize; y++) {
         if ($(".box" + y).attr("class").includes("itBox")) {
             if ($(".box" + y).text() === "BOMB") {
                 score -= 20
+                life--
             }
             else if ($(".box" + y).text() === "5 Points") {
                 score += 5
             }
             else ($(".box" + y).text() === "10 Points") ? score += 10 : score += 20
         }
-    }
+    } $result()
     $(".scorePoints").text(score)
+    $(".lifePoints").text(life)
 })
 
 
@@ -258,33 +272,34 @@ $attemptTrigger = $("body").on("keydown", () => {
 /////////////////////////////////////////////////////////
 
 $result = () => {
-    if (attempt === 0) {
-        for (let y = 0; y < gameSize; y++) {
-            if ($(".box" + y).attr("class").includes("itBox")) {
-                $resultValue.text(score)
-                $(".grid").append($resultBox.append($resultValue))
-                if (life > 0) {
-                    $resultBox.append($buyALife).append($buyButton).append($continue)
-                }
-                else $resultBox.append($("<button>").addClass("playAgainButton").text("Game Over :("))
-            }
+    if (attempt === 0 || life === 0) {
+        $resultValue.text(score)
+        $(".grid").append($resultBox.append($resultValue))
+        console.log("life", life)
+        if (life > 0) {
+            $resultBox.append($buyALife).append($buyButton).append($continue)
         }
-        $playAgainBtn.on("click", () => {
-            attempt = 3;
-            x = 0
-            score = 0
-            $resultBox.remove()
-            $(".box").removeClass("itBox")
-        })
-        $continue.on("click", () => {
-            attempt = 3;
-            x = 0
-            stage++
-            $resultBox.remove()
-            $(".box").removeClass("itBox")
-            startGame()
-        })
+        else $resultBox.append($restart).append($playAgainBtn)
     }
+
+    $playAgainBtn.on("click", () => {
+        attempt = 3;
+        x = 0
+        life = 3
+        stage = 1
+        score = 0
+        $resultBox.remove()
+        $(".box").removeClass("itBox")
+        startGame()
+    })
+    $continue.on("click", () => {
+        attempt = 3;
+        x = 0
+        stage++
+        $resultBox.remove()
+        $(".box").removeClass("itBox")
+        startGame()
+    })
 }
 
 // Continue button to continue game
