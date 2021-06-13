@@ -2,7 +2,7 @@
 // create array of messages
 // hide jquery for animation
 // New Game
-// Store High Score
+// Add Leaderboard
 
 /////////////////////////////////////////////////////////
 // Code Map
@@ -44,10 +44,10 @@ let gameStartCheck = false
 // Shit Talk
 /////////////////////////////////////////////////////////
 
-winner = []
-loser = []
-buyLifeFailed = []
-negativePoints = []
+let winner = []
+let loser = []
+let buyLifeFailed = []
+let negativePoints = []
 
 /////////////////////////////////////////////////////////
 // Buttons (3 Selection [3x3, 4x4, 5x5])
@@ -184,59 +184,9 @@ const footerContainerAppear = (appear) => {
     }
 }
 
-
 /////////////////////////////////////////////////////////
 // Function
 /////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////
-// Difficulty Selection
-/////////////////////////////////////////////////////////
-
-const gridBtnSelection = () => {
-    $(".gridBtn").on("mousedown", (event) => {
-        $gridValue = $(event.target).attr("value")
-        const target = $(event.target)
-        $(".gridBtn").removeClass("btnClicked")
-        target.addClass("btnClicked")
-
-        gameDifficultyAppear(true)
-    })
-}
-gridBtnSelection()
-
-const difBtnSelection = () => {
-    $(".difBtn").on("mousedown", (e) => {
-        difficulty = $(e.target).attr("value")
-        gridBtnContainerAppear(false)
-        gameDifficultyAppear(false)
-        buildBoard()
-    })
-}
-difBtnSelection()
-
-/////////////////////////////////////////////////////////
-// Build Board (3 Selectin [3x3, 4x4, 5x5])
-/////////////////////////////////////////////////////////
-
-const buildBoard = () => {
-    $grid.addClass("grid" + $gridValue)
-
-    for (let i = 0; i < $gridValue; i++) {
-        const $boxP = $("<p>").addClass("boxText boxText" + i).text("?")
-        $grid.append($("<div>").addClass("box box" + i).append($boxP))
-    }
-
-    gridContainerAppear(true)
-    footerContainerAppear(true)
-
-    $(".playBtn").on("mousedown", () => {
-        startGame()
-        playBtnAppear(false);
-    })
-}
-
 
 /////////////////////////////////////////////////////////
 // Difficulty Stage         //      Return number of bomb
@@ -294,6 +244,56 @@ const speed = () => {
     }
     return moveSpeed
 }
+
+/////////////////////////////////////////////////////////
+// Difficulty Selection
+/////////////////////////////////////////////////////////
+
+const gridBtnSelection = () => {
+    $(".gridBtn").on("mousedown", (event) => {
+        $gridValue = $(event.target).attr("value")
+        const target = $(event.target)
+        $(".gridBtn").removeClass("btnClicked")
+        target.addClass("btnClicked")
+
+        gameDifficultyAppear(true)
+    })
+}
+gridBtnSelection()
+
+const difBtnSelection = () => {
+    $(".difBtn").on("mousedown", (e) => {
+        difficulty = $(e.target).attr("value")
+        gridBtnContainerAppear(false)
+        gameDifficultyAppear(false)
+        buildBoard()
+    })
+}
+difBtnSelection()
+
+/////////////////////////////////////////////////////////
+// Build Board (3 Selectin [3x3, 4x4, 5x5])
+/////////////////////////////////////////////////////////
+
+const buildBoard = () => {
+    $grid.addClass("grid" + $gridValue)
+
+    for (let i = 0; i < $gridValue; i++) {
+        const $boxP = $("<p>").addClass("boxText boxText" + i).text("?")
+        $grid.append($("<div>").addClass("box box" + i).append($boxP))
+    }
+
+    gridContainerAppear(true)
+    footerContainerAppear(true)
+
+    $playBtn.on("mousedown", () => {
+        if (gameStartCheck === false)
+            startGame()
+        playBtnAppear(false);
+    })
+}
+
+
 
 /////////////////////////////////////////////////////////
 // Main Game Function
@@ -394,8 +394,9 @@ $result = () => {
         stage = 1
         score = 0
         $resultBoxLoseContainer.remove()
+        $(".boxText").removeClass("bombBox ptBox5 ptBox10 ptBox20")
         $(".box").removeClass("itBox")
-        gameStartCheck = true
+        gameStartCheck = false
         startGame()
     })
     $continue.on("mousedown", () => {
@@ -429,14 +430,13 @@ $result = () => {
         $(".boxText").removeClass("bombBox ptBox5 ptBox10 ptBox20")
         $(".box").removeClass("itBox")
 
+        $grid.children().remove()
+        $grid.removeClass("grid9 grid16 grid25")
+        $(".gridBtn").removeClass("btnClicked")
+
         gridBtnContainerAppear(true)
         gameDifficultyAppear(false)
-        gridContainerAppear(false)
         footerContainerAppear(false)
         playBtnAppear(false)
     })
 }
-
-/////////////////////////////////////////////////////////
-// Fix reset button
-/////////////////////////////////////////////////////////
