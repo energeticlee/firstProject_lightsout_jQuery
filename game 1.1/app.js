@@ -1,5 +1,4 @@
-// Radio button to select difficulty level
-// Continue button to continue game
+// Radio button to select difficulty Stage
 // Buy button to decrease point and increase life
 // hide jquery for animation
 // fixed negative points
@@ -12,16 +11,16 @@
 
 //  Layout | Jquery
 //      Buttons
-//      Select Difficulty Level
+//      Select Difficulty Stage
 //      Footer Container
 //      Score Board
 //      Result Box
 
 //  Function
 //      Build Board         | 3x3, 4x4, 5x5
-//      Difficulty Level    | Determine number of bomb
+//      Difficulty Stage    | Determine number of bomb
 //      Mixed array         | Randomizer
-//      Speed Control       | level
+//      Speed Control       | Stage
 //      Start Game          | Main game function
 //      Sleep               | Await function
 //      Trigger Attempt     | Decrease Attempt
@@ -32,7 +31,7 @@
 /////////////////////////////////////////////////////////
 
 
-let level = 1
+let stage = 1
 let gameSize = 9
 let attempt = 3
 let life = 3
@@ -52,7 +51,7 @@ $("body").append(gridBtnContainer.append($3x3).append($4x4).append($5x5))
 
 
 /////////////////////////////////////////////////////////
-// Select Difficulty Level
+// Select Difficulty Stage
 /////////////////////////////////////////////////////////
 
 const $gameDifficulty = $("<div>").addClass("gameDifficulty")
@@ -66,6 +65,14 @@ $("body").append($gameDifficulty.append($easy).append($normal).append($hard))
 /////////////////////////////////////////////////////////
 
 const $footerContainer = $("<div>").addClass("footer hide")
+
+/////////////////////////////////////////////////////////
+// Stage Board
+/////////////////////////////////////////////////////////
+
+const $stageContainer = $("<div>").addClass("stageContainer")
+const $stageTitle = $("<h3>").addClass("stageTitle").text("Stage")
+const $stagePoints = $("<p>").addClass("stagePoints")
 
 /////////////////////////////////////////////////////////
 // Score Board
@@ -113,8 +120,9 @@ const buildBoard = (e) => {
         $grid.append($("<div>").addClass("box box" + i).append($boxP))
     }
 
-    $("body").append($grid).append($footerContainer.append($("<button>").addClass("playBtn").text("Start Game!")).append($scoreContainer))
+    $("body").append($grid).append($footerContainer.append($("<button>").addClass("playBtn").text("Start Game!")).append($scoreContainer).append($stageContainer))
     $scoreContainer.append($scoreTitle).append($scorePoints.text(score))
+    $stageContainer.append($stageTitle).append($stagePoints.text(stage))
 
     $(".playBtn").on("click", () => {
         startGame();
@@ -126,7 +134,7 @@ $(".gridBtn").on("click", buildBoard)
 
 
 /////////////////////////////////////////////////////////
-// Difficulty Level         //      Return number of bomb
+// Difficulty Stage         //      Return number of bomb
 /////////////////////////////////////////////////////////
 
 boardDifficulty = (difficulty = "Easy") => {
@@ -170,14 +178,14 @@ boardMixer = (numBomb) => {
 }
 
 /////////////////////////////////////////////////////////
-// Speed Control // Level 1, 2, 3
+// Speed Control // Stage 1, 2, 3
 /////////////////////////////////////////////////////////
 
 const speed = () => {
-    if (level === 1) {
+    if (stage === 1) {
         moveSpeed = 160
     }
-    else moveSpeed = level === 2 ? 120 : 80
+    else moveSpeed = stage === 2 ? 120 : 80
     return moveSpeed
 }
 
@@ -186,6 +194,7 @@ const speed = () => {
 /////////////////////////////////////////////////////////
 
 startGame = async () => {
+    $stagePoints.text(stage)
 
     let numBomb = boardDifficulty()
     let mixedArray = boardMixer(numBomb)
@@ -270,7 +279,7 @@ $result = () => {
         $continue.on("click", () => {
             attempt = 3;
             x = 0
-            level++
+            stage++
             $resultBox.remove()
             $(".box").removeClass("itBox")
             startGame()

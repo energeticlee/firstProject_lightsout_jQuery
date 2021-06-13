@@ -140,7 +140,7 @@ p {
     font-weight: 600;
     font-size: 2.4rem;
     border: 2px solid var(--primary-color);
-    box-shadow: 1px 1px 5px 2px var(--primary-color);
+    box-shadow: 1px 1px 5px var(--secondary-color);
     padding: 15px;
     border-radius: 10px;
     background: var(--extra-color);
@@ -153,17 +153,18 @@ p {
     background: var(--accent-color);
 }
 
-.scoreContainer {
+.scoreContainer, .stageContainer {
     text-align: center;
     margin: 0;
     color: var(--accent-color);
     transition: all 0.2s;
 }
 
-.scorePoints, h3, .level, .life {
+.scorePoints, h3, .level, .life, .stagePoints {
     font-size: 2.4rem;
     font-weight: bold;
     margin: 10px;
+    text-shadow: 1px 1px 5px black;
 }
 
 /* Shop */
