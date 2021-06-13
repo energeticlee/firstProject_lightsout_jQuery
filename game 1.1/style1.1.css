@@ -24,6 +24,7 @@ body {
     height: 10vh;
     align-items: center;
     justify-content: center;
+    outline: none;
 }
 
 .gridBtn, .difBtn {
@@ -34,7 +35,8 @@ body {
     width: 100px;
     border-radius: 10px;
     transition: all 0.2s;
-    background: var(--extra-color)
+    background: var(--extra-color);
+    outline: none;
 }
 
 .gridBtn:hover, .difBtn:hover {
@@ -44,6 +46,7 @@ body {
 
 .btnClicked {
     background: var(--accent-color);
+    outline: none;
 }
 
 /* Top Header | Difficulty */
@@ -112,8 +115,7 @@ p {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: black;
-    opacity: 0.85;
+    background: rgba(1,4,2,0.8);
     height: 100%;
     width: 100%;
     position: absolute;
@@ -128,19 +130,26 @@ p {
     color: white;
 }
 
-.playAgainButton, .buyButton, .continue {
+.resultBtn {
     font-size: 2rem;
     font-weight: 700;
     padding: 10px;
     width: 150px;
     height: 50px;
     margin: 5px;
-    background: blue;
+    background: var(--extra-color);
     border: 2px solid var(--secondary-color);
-    opacity: 1;
     border-radius: 20px;
     box-shadow: 1px 1px 5px var(--secondary-color);
+    transition: all 0.3s;
+    outline: none;
 }
+
+.resultBtn:hover {
+    transform: scale(1.1);
+    background: var(--accent-color);
+}
+
 
 /* Main game Footer */
 
@@ -164,6 +173,7 @@ p {
     background: var(--extra-color);
     border-color: var(--secondary-color);
     transition: transform 0.2s;
+    outline: none;
 }
 
 .playBtn:hover {

@@ -1,10 +1,8 @@
-// BUG //
-// Quick space while button not fully hidden
-// keydown trigger before page ready [Add await]
-
 // to do //
 // create array of messages
 // hide jquery for animation
+// New Game
+// Store High Score
 
 /////////////////////////////////////////////////////////
 // Code Map
@@ -40,6 +38,7 @@ let life = 3
 let score = 0
 let $gridValue = 9
 let difficulty = "easy"
+let gameStartCheck = false
 
 /////////////////////////////////////////////////////////
 // Shit Talk
@@ -112,11 +111,11 @@ const $resultValueWin = $("<p>").addClass("resultValue")
 const $resultValueLose = $("<p>").addClass("resultValue")
 
 const buyALifeText = $("<p>").addClass("buyALife").text("Need a boost? Get one life for only 10 points!")
-const $buyButton = $("<button>").addClass("buyButton").text("Buy Now!")
-const $continue = $("<button>").addClass("continue").text("Continue")
+const $buyButton = $("<button>").addClass("buyButton resultBtn").text("Buy Now!")
+const $continue = $("<button>").addClass("continue resultBtn").text("Continue")
 
 const $restart = $("<p>").addClass("restart").text("Game over loser!")
-const $playAgainBtn = $("<button>").addClass("playAgainButton").text("Try again!")
+const $playAgainBtn = $("<button>").addClass("playAgainButton resultBtn").text("Try again!")
 
 const $resultBoxWinContainer = $resultBoxWin.append($resultValueWin).append(buyALifeText).append($buyButton).append($continue)
 const $resultBoxLoseContainer = $resultBoxLose.append($resultValueLose).append($restart).append($playAgainBtn)
@@ -130,11 +129,7 @@ const $resultBoxLoseContainer = $resultBoxLose.append($resultValueLose).append($
 /////////////////////////////////////////////////////////
 
 const buildBoard = () => {
-    $(".gridBtnContainer").toggle(".hide")
-    $(".gameDifficulty").toggle(".hide")
-    $(".footerContainer").toggle(".hide")
-    $(".playBtn").toggle(".hide")
-    $(".grid").remove()      //assign button with value
+    toggleOff()
     const gridContainer = $("<div>").addClass("gridContainer")
     const $grid = $("<div>").addClass("grid grid" + $gridValue)
 
@@ -147,18 +142,25 @@ const buildBoard = () => {
     $lifeContainer.append($lifeTitle).append($lifePoints.text(life))
     $scoreContainer.append($scoreTitle).append($scorePoints.text(score))
     $stageContainer.append($stageTitle).append($stagePoints.text(stage))
-
-    $(".playBtn").on("click", () => {
+    $(".playBtn").on("mousedown", () => {
         startGame();
         $(".playBtn").toggle(".hide")
     })
+}
+
+const toggleOff = () => {
+    $(".gridBtnContainer").toggle(".hide")
+    $(".gameDifficulty").toggle(".hide")
+    $(".footerContainer").toggle(".hide")
+    $(".playBtn").toggle(".hide")
+    $(".grid").remove()
 }
 
 /////////////////////////////////////////////////////////
 // Difficulty Selection
 /////////////////////////////////////////////////////////
 
-$(".gridBtn").on("click", (event) => {
+$(".gridBtn").on("mousedown", (event) => {
     $gridValue = $(event.target).attr("value")
     const target = $(event.target)
     $(".gridBtn").removeClass("btnClicked")
@@ -166,7 +168,7 @@ $(".gridBtn").on("click", (event) => {
     $(".gameDifficulty").removeClass("hide")
 })
 
-$(".difBtn").on("click", (e) => {
+$(".difBtn").on("mousedown", (e) => {
     difficulty = $(e.target).attr("value")
     buildBoard()
 })
@@ -243,6 +245,7 @@ startGame = async () => {
     for (let a = 0; a < $gridValue; a++) {
         $(".boxText" + a).text(mixedArray[a])
     }
+    gameStartCheck = true
 
     while (attempt > 0 && life > 0) {
         let i = 0
@@ -276,26 +279,30 @@ sleep = (duration) => {
 /////////////////////////////////////////////////////////
 
 $attemptTrigger = $("body").on("keydown", () => {
-    attempt--
-    for (let y = 0; y < $gridValue; y++) {
-        if ($(".box" + y).attr("class").includes("itBox")) {
-            if ($(".box" + y).text() === "BOMB") {
-                score <= 20 ? score = 0 : score -= 20
-                life--
+    if (gameStartCheck === true) {
+        attempt--
+        for (let y = 0; y < $gridValue; y++) {
+            if ($(".box" + y).attr("class").includes("itBox")) {
+                if ($(".box" + y).text() === "BOMB") {
+                    score <= 20 ? score = 0 : score -= 20
+                    life--
+                }
+                else if ($(".box" + y).text() === "5 Points") {
+                    score += 5
+                }
+                else ($(".box" + y).text() === "10 Points") ? score += 10 : score += 20
             }
-            else if ($(".box" + y).text() === "5 Points") {
-                score += 5
-            }
-            else ($(".box" + y).text() === "10 Points") ? score += 10 : score += 20
         }
+        if (attempt === 0 || life === 0) {
+            $result()
+        }
+        $(".scorePoints").text(score)
+        $(".lifePoints").text(life)
     }
-    if (attempt === 0 || life === 0) {
-        $result()
-    }
-    $(".scorePoints").text(score)
-    $(".lifePoints").text(life)
 })
 
+// remove focus
+// focus trigger
 
 /////////////////////////////////////////////////////////
 // Result Trigger // Trigger Pop Up after 3 attempt //
@@ -305,33 +312,37 @@ $result = () => {
     if (life > 0) {
         $resultValueWin.text(score + " Points")
         $(".grid").append($resultBoxWinContainer)
+        gameStartCheck = false
     }
     else {
         $resultValueLose.text(score + " Points")
         $(".grid").append($resultBoxLoseContainer)
+        gameStartCheck = false
     }
-    $playAgainBtn.on("click", () => {
+    $playAgainBtn.on("mousedown", () => {
         attempt = 3;
         life = 3
         stage = 1
         score = 0
         $resultBoxLoseContainer.remove()
         $(".box").removeClass("itBox")
+        gameStartCheck = true
         startGame()
     })
-    $continue.on("click", () => {
+    $continue.on("mousedown", () => {
         attempt = 3;
         stage++
         $resultBoxWinContainer.remove()
         $(".box").removeClass("itBox")
+        gameStartCheck = true
         startGame()
     })
-    $buyButton.on("click", () => {
+    $buyButton.on("mousedown", () => {
         if (score >= 10) {
             life++
             score -= 10
-            $resultValueWin.text(score)
-            console.log(score)
+            $resultValueWin.text(score + " Points")
+            buyALifeText.text(`Great! You got ${life} life now! Another one?`)
         }
         else $resultValueWin.text(`${score} ${"shittalk"}`)
     })
