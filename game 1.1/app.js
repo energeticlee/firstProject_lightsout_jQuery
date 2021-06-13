@@ -71,35 +71,56 @@ const $normal = $("<button>").addClass("difBtn normal").text("Normal").attr("val
 const $hard = $("<button>").addClass("difBtn hard").text("Hard").attr("value", "hard")
 $("body").append($gameDifficulty.append($easy).append($normal).append($hard))
 
+
 /////////////////////////////////////////////////////////
-// Footer Container
+// Grid
 /////////////////////////////////////////////////////////
 
-const $footerContainer = $("<div>").addClass("footer hide")
+const $gridContainer = $("<div>").addClass("gridContainer hide")
+const $grid = $("<div>").addClass("grid hide")
+$("body").append($gridContainer.append($grid))
+
+
+const $playBtn = $("<button>").addClass("playBtn hide").text("Start Game!")
+
 
 /////////////////////////////////////////////////////////
 // Life
 /////////////////////////////////////////////////////////
 
-const $lifeContainer = $("<div>").addClass("lifeContainer")
+const $lifeContainer = $("<div>").addClass("lifeContainer hide")
 const $lifeTitle = $("<h3>").addClass("lifeTitle").text("Life")
 const $lifePoints = $("<p>").addClass("lifePoints")
+$lifeContainer.append($lifeTitle).append($lifePoints.text(life))
+
 
 /////////////////////////////////////////////////////////
 // Stage Board
 /////////////////////////////////////////////////////////
 
-const $stageContainer = $("<div>").addClass("stageContainer")
+const $stageContainer = $("<div>").addClass("stageContainer hide")
 const $stageTitle = $("<h3>").addClass("stageTitle").text("Stage")
 const $stagePoints = $("<p>").addClass("stagePoints")
+$stageContainer.append($stageTitle).append($stagePoints.text(stage))
+
 
 /////////////////////////////////////////////////////////
 // Score Board
 /////////////////////////////////////////////////////////
 
-const $scoreContainer = $("<div>").addClass("scoreContainer")
+const $scoreContainer = $("<div>").addClass("scoreContainer hide")
 const $scoreTitle = $("<h3>").addClass("scoreTitle").text("Score")
 const $scorePoints = $("<p>").addClass("scorePoints")
+$scoreContainer.append($scoreTitle).append($scorePoints.text(score))
+
+/////////////////////////////////////////////////////////
+// Footer Container
+/////////////////////////////////////////////////////////
+
+const $footerContainer = $("<div>").addClass("footer hide")
+$("body").append($footerContainer.append($playBtn).append($lifeContainer).append($scoreContainer).append($stageContainer))
+
+
 
 /////////////////////////////////////////////////////////
 // Result Box
@@ -117,61 +138,105 @@ const $continue = $("<button>").addClass("continue resultBtn").text("Continue")
 const $restart = $("<p>").addClass("restart").text("Game over loser!")
 const $playAgainBtn = $("<button>").addClass("playAgainButton resultBtn").text("Try again!")
 
-const $resultBoxWinContainer = $resultBoxWin.append($resultValueWin).append(buyALifeText).append($buyButton).append($continue)
-const $resultBoxLoseContainer = $resultBoxLose.append($resultValueLose).append($restart).append($playAgainBtn)
+const $resetBtnWin = $("<button>").addClass("resetBtn").text("Reset")
+const $resetBtnLose = $("<button>").addClass("resetBtn").text("Reset")
+
+const $resultBoxWinContainer = $resultBoxWin.append($resultValueWin).append(buyALifeText).append($buyButton).append($continue).append($resetBtnWin)
+const $resultBoxLoseContainer = $resultBoxLose.append($resultValueLose).append($restart).append($playAgainBtn).append($resetBtnLose)
+
+
+/////////////////////////////////////////////////////////
+// Trigger Function // true to appear, false to hide
+/////////////////////////////////////////////////////////
+
+
+const gridBtnContainerAppear = (appear) => {
+    if (gridBtnContainer.attr("class").includes("hide") === appear) {
+        gridBtnContainer.toggleClass("hide")
+    }
+}
+const gameDifficultyAppear = (appear) => {
+    if ($gameDifficulty.attr("class").includes("hide") === appear) {
+        $gameDifficulty.toggleClass("hide")
+    }
+}
+
+const gridContainerAppear = (appear) => {
+    if ($gridContainer.attr("class").includes("hide") === appear) {
+        $gridContainer.toggleClass("hide")
+        $grid.toggleClass("hide")
+    }
+}
+
+const playBtnAppear = (appear) => {
+    if ($playBtn.attr("class").includes("hide") === appear) {
+        $playBtn.toggleClass("hide")
+    }
+}
+
+const footerContainerAppear = (appear) => {
+    if ($footerContainer.attr("class").includes("hide") === appear) {
+        $footerContainer.toggleClass("hide")
+        $playBtn.toggleClass("hide")
+        $lifeContainer.toggleClass("hide")
+        $scoreContainer.toggleClass("hide")
+        $stageContainer.toggleClass("hide")
+    }
+}
+
 
 /////////////////////////////////////////////////////////
 // Function
 /////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////
+// Difficulty Selection
+/////////////////////////////////////////////////////////
+
+const gridBtnSelection = () => {
+    $(".gridBtn").on("mousedown", (event) => {
+        $gridValue = $(event.target).attr("value")
+        const target = $(event.target)
+        $(".gridBtn").removeClass("btnClicked")
+        target.addClass("btnClicked")
+
+        gameDifficultyAppear(true)
+    })
+}
+gridBtnSelection()
+
+const difBtnSelection = () => {
+    $(".difBtn").on("mousedown", (e) => {
+        difficulty = $(e.target).attr("value")
+        gridBtnContainerAppear(false)
+        gameDifficultyAppear(false)
+        buildBoard()
+    })
+}
+difBtnSelection()
 
 /////////////////////////////////////////////////////////
 // Build Board (3 Selectin [3x3, 4x4, 5x5])
 /////////////////////////////////////////////////////////
 
 const buildBoard = () => {
-    toggleOff()
-    const gridContainer = $("<div>").addClass("gridContainer")
-    const $grid = $("<div>").addClass("grid grid" + $gridValue)
+    $grid.addClass("grid" + $gridValue)
 
     for (let i = 0; i < $gridValue; i++) {
-        const $boxP = $("<p>").addClass("boxText" + i).text("?")
+        const $boxP = $("<p>").addClass("boxText boxText" + i).text("?")
         $grid.append($("<div>").addClass("box box" + i).append($boxP))
     }
 
-    $("body").append(gridContainer.append($grid)).append($footerContainer.append($("<button>").addClass("playBtn").text("Start Game!")).append($lifeContainer).append($scoreContainer).append($stageContainer))
-    $lifeContainer.append($lifeTitle).append($lifePoints.text(life))
-    $scoreContainer.append($scoreTitle).append($scorePoints.text(score))
-    $stageContainer.append($stageTitle).append($stagePoints.text(stage))
+    gridContainerAppear(true)
+    footerContainerAppear(true)
+
     $(".playBtn").on("mousedown", () => {
-        startGame();
-        $(".playBtn").toggle(".hide")
+        startGame()
+        playBtnAppear(false);
     })
 }
 
-const toggleOff = () => {
-    $(".gridBtnContainer").toggle(".hide")
-    $(".gameDifficulty").toggle(".hide")
-    $(".footerContainer").toggle(".hide")
-    $(".playBtn").toggle(".hide")
-    $(".grid").remove()
-}
-
-/////////////////////////////////////////////////////////
-// Difficulty Selection
-/////////////////////////////////////////////////////////
-
-$(".gridBtn").on("mousedown", (event) => {
-    $gridValue = $(event.target).attr("value")
-    const target = $(event.target)
-    $(".gridBtn").removeClass("btnClicked")
-    target.addClass("btnClicked")
-    $(".gameDifficulty").removeClass("hide")
-})
-
-$(".difBtn").on("mousedown", (e) => {
-    difficulty = $(e.target).attr("value")
-    buildBoard()
-})
 
 /////////////////////////////////////////////////////////
 // Difficulty Stage         //      Return number of bomb
@@ -244,6 +309,13 @@ startGame = async () => {
 
     for (let a = 0; a < $gridValue; a++) {
         $(".boxText" + a).text(mixedArray[a])
+        if (mixedArray[a] === "BOMB") {
+            $(".boxText" + a).addClass("bombBox")
+        } else if (mixedArray[a] === "5 Points") {
+            $(".boxText" + a).addClass("ptBox5")
+        } else if (mixedArray[a] === "10 Points") {
+            $(".boxText" + a).addClass("ptBox10")
+        } else $(".boxText" + a).addClass("ptBox20")
     }
     gameStartCheck = true
 
@@ -301,9 +373,6 @@ $attemptTrigger = $("body").on("keydown", () => {
     }
 })
 
-// remove focus
-// focus trigger
-
 /////////////////////////////////////////////////////////
 // Result Trigger // Trigger Pop Up after 3 attempt //
 /////////////////////////////////////////////////////////
@@ -333,6 +402,7 @@ $result = () => {
         attempt = 3;
         stage++
         $resultBoxWinContainer.remove()
+        $(".boxText").removeClass("bombBox ptBox5 ptBox10 ptBox20")
         $(".box").removeClass("itBox")
         gameStartCheck = true
         startGame()
@@ -346,4 +416,27 @@ $result = () => {
         }
         else $resultValueWin.text(`${score} ${"shittalk"}`)
     })
+
+    $(".resetBtn").on("mousedown", () => {
+        stage = 1
+        attempt = 3
+        life = 3
+        score = 0
+        $gridValue = 9
+        difficulty = "easy"
+        gameStartCheck = false
+        $resultBoxWinContainer.remove()
+        $(".boxText").removeClass("bombBox ptBox5 ptBox10 ptBox20")
+        $(".box").removeClass("itBox")
+
+        gridBtnContainerAppear(true)
+        gameDifficultyAppear(false)
+        gridContainerAppear(false)
+        footerContainerAppear(false)
+        playBtnAppear(false)
+    })
 }
+
+/////////////////////////////////////////////////////////
+// Fix reset button
+/////////////////////////////////////////////////////////
