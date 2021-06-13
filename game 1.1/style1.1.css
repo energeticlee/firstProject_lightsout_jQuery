@@ -16,9 +16,9 @@ body {
     background: var(--accent-color);
 }
 
-/* Top Header */
+/* Top Header | Grid */
 
-.gridBtnContainer {
+.gridBtnContainer, .gameDifficulty {
     display: flex;
     background: var(--primary-color);
     height: 10vh;
@@ -26,7 +26,7 @@ body {
     justify-content: center;
 }
 
-.gridBtn {
+.gridBtn, .difBtn {
     font-size: 2rem;
     font-weight: 600;
     margin: 30px;
@@ -37,13 +37,23 @@ body {
     background: var(--extra-color)
 }
 
-.gridBtn:hover {
+.gridBtn:hover, .difBtn:hover {
     transform: scale(1.1);
     background: var(--accent-color);
 }
 
+.btnClicked {
+    background: var(--accent-color);
+}
+
+/* Top Header | Difficulty */
+
+.gameDifficulty {
+    margin-top: 5px;
+}
+
 .hide {
-    display: hide;
+    display: none;
 }
 
 /* Main Game Play */
