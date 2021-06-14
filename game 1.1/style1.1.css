@@ -68,6 +68,14 @@ body {
     margin-top: 5px;
 }
 
+.highScoreContainer {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    text-align: center;
+    margin: 0;
+}
+
 .hide {
     display: none;
 }
@@ -213,44 +221,49 @@ p {
     text-align: center;
     margin: 0;
     color: var(--accent-color);
-    transition: all 0.2s;
 }
 
 .scorePoints, h3, .level, .life, .stagePoints, .lifePoints {
     font-size: 2.4rem;
     font-weight: bold;
     margin: 10px;
-    text-shadow: 1px 1px 5px black;
+    text-shadow: 1px 1px 3px var(--primary-color);
+}
+
+.highScoreTitle, .highScorePoints {
+    font-size: 2.4rem;
+    margin: 10px 10px 0 10px;
+    text-shadow: 1px 1px 3px var(--primary-color);
+    color: var(--secondary-color);
 }
 
 /* Shop */
 
-.crasherContainerMain {
+.crusherContainerMain {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
-.crasherContainer {
+.crusherContainer {
     display: flex;
     justify-content: space-between;
     width: 600px;
     align-items: center;
 }
 
-.crasher {
+.crusher {
     height: 50px;
     width: 50px;
     position: relative;
 }
 
-.crasherRight {
+.crusherRight {
     transform: scaleX(-1);
 }
 
 .player {
     height: 50px;
     width: 50px;
-    background: white;
 }
 
 /* Shop */

@@ -1,7 +1,6 @@
 // to do //
 // create array of messages
-// hide jquery for animation
-// Add Leaderboard
+// Add player name and difficulty level for highscore board
 
 /////////////////////////////////////////////////////////
 // Code Map
@@ -46,16 +45,16 @@ let score = 0
 let $gridValue = 9
 let difficulty = "easy"
 let gameStartCheck = false
-let crasherSpace = 0
+let crusherSpace = 0
+let highScore = 0
 
 /////////////////////////////////////////////////////////
 // Shit Talk
 /////////////////////////////////////////////////////////
 
-let winner = []
-let loser = []
-let buyLifeFailed = []
-let negativePoints = []
+let winner = ["Well done! Snuffles balls are saved this time!", "Yay! Snuffles get to keep his balls!"]
+let loser = ["Damn.. There goes Smowball balls", "Snip Snip, bye bye balls", "Game Over Loser"]
+let buyFailed = ["You don't have enough score!", "Can't count?", "What are you gonna pay with? Snuffles balls?"]
 
 /////////////////////////////////////////////////////////
 // Buttons (3 Selection [3x3, 4x4, 5x5])
@@ -79,6 +78,14 @@ const $normal = $("<button>").addClass("difBtn normal").text("Normal").attr("val
 const $hard = $("<button>").addClass("difBtn hard").text("Hard").attr("value", "hard")
 $("body").append($gameDifficulty.append($easy).append($normal).append($hard))
 
+/////////////////////////////////////////////////////////
+// Highscore
+/////////////////////////////////////////////////////////
+
+const $highScoreContainer = $("<div>").addClass("highScoreContainer")
+const $highScoreTitle = $("<h3>").addClass("highScoreTitle").text("Score")
+const $highscore = $("<p>").addClass("highScorePoints").text(highScore)
+$("body").append($highScoreContainer.append($highScoreTitle).append($highscore))
 
 /////////////////////////////////////////////////////////
 // Grid
@@ -132,14 +139,14 @@ $("body").append($footerContainer.append($playBtn).append($lifeContainer).append
 // Smash Box
 /////////////////////////////////////////////////////////
 
-const player = $("<img>").addClass("player hide").attr("src", "https://www.seekpng.com/png/detail/912-9122718_snuffles-snowball-rickandmorty-freetoedit-rick-and-morty-png.png")
-const $crasherContainerMain = $("<div>").addClass("crasherContainerMain hide")
-const $crasherContainer = $("<div>").addClass("crasherContainer hide")
-const $crasherLeft = $("<img>").addClass("crasher crasherLeft hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
-const $crasherRight = $("<img>").addClass("crasher crasherRight hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
-$("body").append($crasherContainerMain.append($crasherContainer.append($crasherLeft).append(player).append($crasherRight)))
+const player = $("<img>").addClass("player hide").attr("src", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aaa79357-9476-4c1d-b9a8-6e881f2449d3/ddgdrd9-cb8622a9-d3a4-45a4-8b28-6968bbc71866.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhYTc5MzU3LTk0NzYtNGMxZC1iOWE4LTZlODgxZjI0NDlkM1wvZGRnZHJkOS1jYjg2MjJhOS1kM2E0LTQ1YTQtOGIyOC02OTY4YmJjNzE4NjYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.luPKAZzBSuD5ibste5HXotlKlI4KQyQdyvsjuCSqzJI")
+const $crusherContainerMain = $("<div>").addClass("crusherContainerMain hide")
+const $crusherContainer = $("<div>").addClass("crusherContainer hide")
+const $crusherLeft = $("<img>").addClass("crusher crusherLeft hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
+const $crusherRight = $("<img>").addClass("crusher crusherRight hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
+$("body").append($crusherContainerMain.append($crusherContainer.append($crusherLeft).append(player).append($crusherRight)))
 
-// speed of crasher moving in (power up)
+// speed of crusher moving in (power up)
 // reset box to end (shop)
 // start inventory
 // bomb diffuser kit
@@ -155,15 +162,15 @@ const $resultValueLose = $("<p>").addClass("resultValue")
 
 const buyALifeText = $("<p>").addClass("buyALife").text("Need a boost? Get one life for only 10 points!")
 const $buyALifeButton = $("<button>").addClass("buyButton resultBtn").text("+1 Life!")
-const $pushBackCrasher = $("<button>").addClass("pushBackBtn resultBtn").text("Push Scissors!")
+const $pushBackCrusher = $("<button>").addClass("pushBackBtn resultBtn").text("Push Scissors!")
 const $continue = $("<button>").addClass("continue resultBtn").text("Continue")
 
-const $restart = $("<p>").addClass("restart").text("Game over loser!")
+const $restart = $("<p>").addClass("restart")
 
 const $resetBtnWin = $("<button>").addClass("resetBtn").text("Reset")
 const $resetBtnLose = $("<button>").addClass("resetBtn").text("Reset")
 
-const $resultBoxWinContainer = $resultBoxWin.append($resultValueWin).append(buyALifeText).append($buyALifeButton).append($pushBackCrasher).append($continue).append($resetBtnWin)
+const $resultBoxWinContainer = $resultBoxWin.append($resultValueWin).append(buyALifeText).append($buyALifeButton).append($pushBackCrusher).append($continue).append($resetBtnWin)
 const $resultBoxLoseContainer = $resultBoxLose.append($resultValueLose).append($restart).append($resetBtnLose)
 
 
@@ -210,13 +217,13 @@ const footerContainerAppear = (appear) => {
     }
 }
 
-const crasherContainerAppear = (appear) => {
-    if ($crasherContainerMain.attr("class").includes("hide") === appear) {
+const crusherContainerAppear = (appear) => {
+    if ($crusherContainerMain.attr("class").includes("hide") === appear) {
         player.toggleClass("hide")
-        $crasherContainerMain.toggleClass("hide")
-        $crasherContainer.toggleClass("hide")
-        $crasherLeft.toggleClass("hide")
-        $crasherRight.toggleClass("hide")
+        $crusherContainerMain.toggleClass("hide")
+        $crusherContainer.toggleClass("hide")
+        $crusherLeft.toggleClass("hide")
+        $crusherRight.toggleClass("hide")
     }
 }
 
@@ -331,7 +338,7 @@ const buildBoard = () => {
 
     gridContainerAppear(true)
     footerContainerAppear(true)
-    crasherContainerAppear(true)
+    crusherContainerAppear(true)
 
     $playBtn.on("mousedown", () => {
         if (gameStartCheck === false)
@@ -370,7 +377,7 @@ startGame = async () => {
         let i = 0
         while (i < parseInt($gridValue) + 1) {
             console.log("above await I", i)
-            crasher()
+            crusher()
             await sleep(speed())
             attemptTrigger
             //stop +1 causing color to stop running
@@ -386,33 +393,33 @@ startGame = async () => {
 }
 
 /////////////////////////////////////////////////////////
-// Crasher
+// Crusher
 /////////////////////////////////////////////////////////
 
-crasher = () => {
+crusher = () => {
     if (gameStartCheck === true) {
-        crasherSpace += 5
-        $crasherLeft.animate({
-            left: crasherSpace
+        crusherSpace += 5
+        $crusherLeft.animate({
+            left: crusherSpace
         }, speed())
-        $crasherRight.animate({
-            right: crasherSpace
+        $crusherRight.animate({
+            right: crusherSpace
         }, speed())
     }
-    if (crasherSpace === 210) {
+    if (crusherSpace === 210) {
         life = 0
         gameStartCheck = false
         $result()
     }
 }
 
-pushBackCrasher = () => {
-    crasherSpace -= 50
-    $crasherLeft.animate({
-        left: crasherSpace
+pushBackCrusher = () => {
+    crusherSpace -= 50
+    $crusherLeft.animate({
+        left: crusherSpace
     }, speed())
-    $crasherRight.animate({
-        right: crasherSpace
+    $crusherRight.animate({
+        right: crusherSpace
     }, speed())
 }
 
@@ -457,6 +464,7 @@ $result = () => {
     else {
         $resultValueLose.text(score + " Points")
         $(".grid").append($resultBoxLoseContainer)
+        $restart.text(loser[Math.floor(Math.random() * loser.length)])
         gameStartCheck = false
     }
     $continue.on("mousedown", () => {
@@ -475,33 +483,47 @@ $result = () => {
             $resultValueWin.text(score + " Points")
             buyALifeText.text(`Great! You got ${life} life now! Another one?`)
         }
-        else $resultValueWin.text(`${score} ${"shittalk"}`)
+        else {
+            $resultValueWin.text(`${score} Points`)
+            buyALifeText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+        }
     })
-    $pushBackCrasher.on("mousedown", () => {
+    $pushBackCrusher.on("mousedown", () => {
         if (score >= 10) {
-            pushBackCrasher()
+            pushBackCrusher()
             score -= 10
             $resultValueWin.text(score + " Points")
-            buyALifeText.text(`That's a relief?`)
+            buyALifeText.text(`That's a relief`)
         }
-        else $resultValueWin.text(`${score} ${"shittalk"}`)
+        else {
+            $resultValueWin.text(`${score} Points`)
+            buyALifeText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+        }
     })
 
     $(".resetBtn").on("mousedown", () => {
         stage = 1
         attempt = 3
         life = 3
+        if (score > highScore) {
+            highScore = score
+        }
+        $highscore.text(highScore)
         score = 0
         $gridValue = 9
         difficulty = "easy"
         gameStartCheck = false
-        crasherSpace = 0
+        crusherSpace = 0
 
-        $crasherRight.animate({
-            right: crasherSpace
+        $lifePoints.text(life)
+        $stagePoints.text(stage)
+        $scorePoints.text(score)
+
+        $crusherRight.animate({
+            right: crusherSpace
         })
-        $crasherLeft.animate({
-            left: crasherSpace
+        $crusherLeft.animate({
+            left: crusherSpace
         })
 
         $resultBoxWinContainer.remove()
@@ -516,6 +538,6 @@ $result = () => {
         gameDifficultyAppear(false)
         footerContainerAppear(false)
         playBtnAppear(false)
-        crasherContainerAppear(false)
+        crusherContainerAppear(false)
     })
 }
