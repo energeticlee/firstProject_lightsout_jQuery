@@ -303,24 +303,64 @@ p {
 
 /* HighScore Board */
 
-.highScoreMainContainer {
+.highScoreMainContainer, .gameRuleContainer {
     display: flex;
+    width: 40%;
+    flex-direction: column;
     position: absolute;
     text-align: center;
-    margin: 0;
+    margin: 20px;
 }
 
 .highScoreBoard {
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: bold;
-    margin: 10px 10px 0 10px;
+    margin: 30px 0 10px 0;
     text-shadow: 1px 1px 3px var(--primary-color);
     color: var(--secondary-color);
 }
 
 .highScorePoints, .highScoreName {
-    font-size: 1.6rem;
-    margin: 10px 10px 0 10px;
+    font-size: 2rem;
+    text-transform: capitalize;
+    margin: 5px 0;
     text-shadow: 1px 1px 3px var(--primary-color);
     color: var(--secondary-color);
 }
+
+.gameRuleContainer {
+    width: 40%;
+    right: 0;
+}
+
+.gameRuleTitle {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.gameRuleIcon {
+    position: relative;
+    top: 4px;
+    margin-left: 10px;
+    height: 20px;
+    width: 20px;
+    transform: rotate(90deg);
+    transition: all 300ms;
+}
+
+.gameRuleIcon.clickRotate {
+    transform: rotate(0);
+}
+
+.rule {
+    list-style: none;
+    text-align: center;
+    font-size: 1.4rem;
+    word-spacing: 2px;
+    padding: 5px;
+}
+
+@media screen and (max-width: 1080px) {
+    .highScoreMainContainer, .gameRuleContainer, .gameRuleContainer {
+        width: 25%;
+}}

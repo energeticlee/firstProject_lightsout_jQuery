@@ -1,6 +1,7 @@
-// to do //
-// create array of messages
-// Add player name and difficulty level for highscore board
+// Add difficulty level for highscore board
+// Slow down of crusher moving in (power up)
+// Start inventory
+// Bomb diffuser kit
 
 /////////////////////////////////////////////////////////
 // Code Map
@@ -53,9 +54,9 @@ let playerName = ""
 // Shit Talk
 /////////////////////////////////////////////////////////
 
-let winner = ["Well done! Snuffles balls are saved this time!", "Yay! Snuffles get to keep his balls!"]
+let winner = ["Well done! Mr.Snuffles balls are saved this time!", "Yay! Mr.Snuffles get to keep his balls!"]
 let loser = ["Damn.. There goes Smowball balls", "Snip Snip, bye bye balls", "Game Over Loser"]
-let buyFailed = ["You don't have enough score!", "Can't count?", "What are you gonna pay with? Snuffles balls?"]
+let buyFailed = ["You don't have enough score!", "Can't count?", "What are you gonna pay with? Mr.Snuffles balls?"]
 
 /////////////////////////////////////////////////////////
 // Input Player Name
@@ -71,6 +72,7 @@ $nameInputBtn.on("click", (event) => {
     event.preventDefault()
     playerName = $nameInput.val()
     $nameInput.val("")
+    $highscoreNameTitle.text("Name")
     $highscoreName.text(playerName)
     nameInputContainer.slideUp(400)
 })
@@ -104,14 +106,31 @@ $("body").append($gameDifficulty.append($easy).append($normal).append($hard))
 const highScoreMainContainer = $("<div>").addClass("highScoreMainContainer")
 
 const $highScoreNameContainer = $("<div>").addClass("highScoreNameContainer")
-const $highscoreNameTitle = $("<h4>").addClass("highScoreTitle highScoreBoard").text("Name")
+const $highscoreNameTitle = $("<h4>").addClass("highScoreTitle highScoreBoard")
 const $highscoreName = $("<p>").addClass("highScoreName").text(playerName)
 
 const $highScoreContainer = $("<div>").addClass("highScoreContainer")
-const $highScoreTitle = $("<h4>").addClass("highScoreTitle highScoreBoard").text("Score")
-const $highscore = $("<p>").addClass("highScorePoints").text(highScore)
+const $highScoreTitle = $("<h4>").addClass("highScoreTitle highScoreBoard")
+const $highscore = $("<p>").addClass("highScorePoints")
 $("body").append(highScoreMainContainer.append($highScoreNameContainer.append($highscoreNameTitle).append($highscoreName)).append($highScoreContainer.append($highScoreTitle).append($highscore)))
 
+/////////////////////////////////////////////////////////
+// Game Rules
+/////////////////////////////////////////////////////////
+
+const gameRuleContainer = $("<div>").addClass('gameRuleContainer')
+const gameRuleTitle = $("<ul>").addClass("gameRuleTitle").text("Game Rules")
+const gameRuleIcon = $("<img>").addClass("gameRuleIcon").attr("src", "./arrow.png")
+const rule1 = $("<li>").addClass("rule rule1").text("You lose if Life = 0 or Scissors reaches Mr.Snuffles, You Lose")
+const rule2 = $("<li>").addClass("rule rule1").text("Bomb = -20 Points & -1 Life")
+const rule3 = $("<li>").addClass("rule rule1").text("Reset to end game & log highscore!")
+
+$("body").append(gameRuleContainer.append(gameRuleTitle.append(gameRuleIcon)).append(rule1, rule2, rule3))
+
+$(".gameRuleTitle").on("click", () => {
+    $(".rule").slideToggle(300)
+    $(".gameRuleIcon").toggleClass("clickRotate")
+})
 /////////////////////////////////////////////////////////
 // Grid
 /////////////////////////////////////////////////////////
@@ -170,11 +189,6 @@ const $crusherContainer = $("<div>").addClass("crusherContainer hide")
 const $crusherLeft = $("<img>").addClass("crusher crusherLeft hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
 const $crusherRight = $("<img>").addClass("crusher crusherRight hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
 $("body").append($crusherContainerMain.append($crusherContainer.append($crusherLeft).append(hostage).append($crusherRight)))
-
-// speed of crusher moving in (power up)
-// reset box to end (shop)
-// start inventory
-// bomb diffuser kit
 
 /////////////////////////////////////////////////////////
 // Result Box
@@ -353,6 +367,7 @@ const difBtnSelection = () => {
         difficulty = $(e.target).attr("value")
         gridBtnContainerAppear(false)
         gameDifficultyAppear(false)
+        nameInputContainerAppear(false)
         buildBoard()
     })
 }
@@ -542,6 +557,7 @@ $result = () => {
         if (score > highScore) {
             highScore = score
         }
+        $highScoreTitle.text("Score")
         $highscore.text(highScore)
         score = 0
         $gridValue = 9
@@ -568,6 +584,7 @@ $result = () => {
         $grid.removeClass("grid9 grid16 grid25")
         $(".gridBtn").removeClass("btnClicked")
 
+        nameInputContainerAppear(true)
         gridBtnContainerAppear(true)
         gameDifficultyAppear(false)
         footerContainerAppear(false)
