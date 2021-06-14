@@ -47,6 +47,7 @@ let difficulty = "easy"
 let gameStartCheck = false
 let crusherSpace = 0
 let highScore = 0
+let playerName = ""
 
 /////////////////////////////////////////////////////////
 // Shit Talk
@@ -55,6 +56,24 @@ let highScore = 0
 let winner = ["Well done! Snuffles balls are saved this time!", "Yay! Snuffles get to keep his balls!"]
 let loser = ["Damn.. There goes Smowball balls", "Snip Snip, bye bye balls", "Game Over Loser"]
 let buyFailed = ["You don't have enough score!", "Can't count?", "What are you gonna pay with? Snuffles balls?"]
+
+/////////////////////////////////////////////////////////
+// Input Player Name
+/////////////////////////////////////////////////////////
+
+const nameInputContainer = $("<div>").addClass("nameInputContainer")
+const nameInputFrame = $("<div>").addClass("nameInputFrame")
+const $nameInput = $("<input>").addClass("nameInput").attr({ placeholder: "Enter player name" })
+const $nameInputBtn = $("<input>").attr("type", "submit").addClass("nameInputBtn").text("Enter")
+$("#playerName").append(nameInputContainer.append(nameInputFrame.append($nameInput).append($nameInputBtn)))
+
+$nameInputBtn.on("click", (event) => {
+    event.preventDefault()
+    playerName = $nameInput.val()
+    $nameInput.val("")
+    $highscoreName.text(playerName)
+    nameInputContainer.slideUp(400)
+})
 
 /////////////////////////////////////////////////////////
 // Buttons (3 Selection [3x3, 4x4, 5x5])
@@ -82,10 +101,16 @@ $("body").append($gameDifficulty.append($easy).append($normal).append($hard))
 // Highscore
 /////////////////////////////////////////////////////////
 
+const highScoreMainContainer = $("<div>").addClass("highScoreMainContainer")
+
+const $highScoreNameContainer = $("<div>").addClass("highScoreNameContainer")
+const $highscoreNameTitle = $("<h4>").addClass("highScoreTitle highScoreBoard").text("Name")
+const $highscoreName = $("<p>").addClass("highScoreName").text(playerName)
+
 const $highScoreContainer = $("<div>").addClass("highScoreContainer")
-const $highScoreTitle = $("<h3>").addClass("highScoreTitle").text("Score")
+const $highScoreTitle = $("<h4>").addClass("highScoreTitle highScoreBoard").text("Score")
 const $highscore = $("<p>").addClass("highScorePoints").text(highScore)
-$("body").append($highScoreContainer.append($highScoreTitle).append($highscore))
+$("body").append(highScoreMainContainer.append($highScoreNameContainer.append($highscoreNameTitle).append($highscoreName)).append($highScoreContainer.append($highScoreTitle).append($highscore)))
 
 /////////////////////////////////////////////////////////
 // Grid
@@ -104,7 +129,7 @@ const $playBtn = $("<button>").addClass("playBtn hide").text("Start Game!")
 /////////////////////////////////////////////////////////
 
 const $lifeContainer = $("<div>").addClass("lifeContainer hide")
-const $lifeTitle = $("<h3>").addClass("lifeTitle").text("Life")
+const $lifeTitle = $("<h3>").addClass("lifeTitle footerBoard").text("Life")
 const $lifePoints = $("<p>").addClass("lifePoints")
 $lifeContainer.append($lifeTitle).append($lifePoints.text(life))
 
@@ -114,7 +139,7 @@ $lifeContainer.append($lifeTitle).append($lifePoints.text(life))
 /////////////////////////////////////////////////////////
 
 const $stageContainer = $("<div>").addClass("stageContainer hide")
-const $stageTitle = $("<h3>").addClass("stageTitle").text("Stage")
+const $stageTitle = $("<h3>").addClass("stageTitle footerBoard").text("Stage")
 const $stagePoints = $("<p>").addClass("stagePoints")
 $stageContainer.append($stageTitle).append($stagePoints.text(stage))
 
@@ -124,7 +149,7 @@ $stageContainer.append($stageTitle).append($stagePoints.text(stage))
 /////////////////////////////////////////////////////////
 
 const $scoreContainer = $("<div>").addClass("scoreContainer hide")
-const $scoreTitle = $("<h3>").addClass("scoreTitle").text("Score")
+const $scoreTitle = $("<h3>").addClass("scoreTitle footerBoard").text("Score")
 const $scorePoints = $("<p>").addClass("scorePoints")
 $scoreContainer.append($scoreTitle).append($scorePoints.text(score))
 
@@ -139,12 +164,12 @@ $("body").append($footerContainer.append($playBtn).append($lifeContainer).append
 // Smash Box
 /////////////////////////////////////////////////////////
 
-const player = $("<img>").addClass("player hide").attr("src", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aaa79357-9476-4c1d-b9a8-6e881f2449d3/ddgdrd9-cb8622a9-d3a4-45a4-8b28-6968bbc71866.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhYTc5MzU3LTk0NzYtNGMxZC1iOWE4LTZlODgxZjI0NDlkM1wvZGRnZHJkOS1jYjg2MjJhOS1kM2E0LTQ1YTQtOGIyOC02OTY4YmJjNzE4NjYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.luPKAZzBSuD5ibste5HXotlKlI4KQyQdyvsjuCSqzJI")
+const hostage = $("<img>").addClass("hostage hide").attr("src", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aaa79357-9476-4c1d-b9a8-6e881f2449d3/ddgdrd9-cb8622a9-d3a4-45a4-8b28-6968bbc71866.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhYTc5MzU3LTk0NzYtNGMxZC1iOWE4LTZlODgxZjI0NDlkM1wvZGRnZHJkOS1jYjg2MjJhOS1kM2E0LTQ1YTQtOGIyOC02OTY4YmJjNzE4NjYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.luPKAZzBSuD5ibste5HXotlKlI4KQyQdyvsjuCSqzJI")
 const $crusherContainerMain = $("<div>").addClass("crusherContainerMain hide")
 const $crusherContainer = $("<div>").addClass("crusherContainer hide")
 const $crusherLeft = $("<img>").addClass("crusher crusherLeft hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
 const $crusherRight = $("<img>").addClass("crusher crusherRight hide").attr("src", "https://lh3.googleusercontent.com/proxy/SSB82bMJzmevtW81bxZr_GG6gC04PWSPfzs6BXLACHA3ebJ8HHO9dBGPrWcXSO_nQ72rumj-C_JvJYce8l3NakP-ND0qR-ynZMr4yf93q5AdNfa3JS91p0uWUtX9yzaV")
-$("body").append($crusherContainerMain.append($crusherContainer.append($crusherLeft).append(player).append($crusherRight)))
+$("body").append($crusherContainerMain.append($crusherContainer.append($crusherLeft).append(hostage).append($crusherRight)))
 
 // speed of crusher moving in (power up)
 // reset box to end (shop)
@@ -183,6 +208,15 @@ const $resultBoxLoseContainer = $resultBoxLose.append($resultValueLose).append($
 /////////////////////////////////////////////////////////
 
 
+const nameInputContainerAppear = (appear) => {
+    if (nameInputContainer.attr("class").includes("hide") === appear) {
+        nameInputContainer.toggleClass("hide")
+        nameInputFrame.toggleClass("hide")
+        $nameInput.toggleClass("hide")
+        $nameInputBtn.toggleClass("hide")
+    }
+}
+
 const gridBtnContainerAppear = (appear) => {
     if (gridBtnContainer.attr("class").includes("hide") === appear) {
         gridBtnContainer.toggleClass("hide")
@@ -219,7 +253,7 @@ const footerContainerAppear = (appear) => {
 
 const crusherContainerAppear = (appear) => {
     if ($crusherContainerMain.attr("class").includes("hide") === appear) {
-        player.toggleClass("hide")
+        hostage.toggleClass("hide")
         $crusherContainerMain.toggleClass("hide")
         $crusherContainer.toggleClass("hide")
         $crusherLeft.toggleClass("hide")
