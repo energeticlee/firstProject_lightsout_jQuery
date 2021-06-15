@@ -20,6 +20,7 @@ body {
 
 .nameInputContainer {
     display: flex;
+    align-items: center;
     justify-content: center;
     margin: 20px;
 }
@@ -148,28 +149,30 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--secondary-color);
-    color: var(--accent-color);
+    background: var(--accent-color);
+    color: var(--secondary-color);
     height: 100px;
     width: 100px;
-    border: 1px solid var(--accent-color);
-}
-
-.itBox {
-    background: var(--accent-color);
-    font-size: 2rem;
+    border: 2px solid var(--primary-color);
 }
 
 .bombBox {
-    color: red;
+    content: url(./bomb.png);
+    height: 50px;
+    width: 50px;
+}
+
+.itBox {
+    background: var(--primary-color);
+    font-size: 2rem;
 }
 
 .ptBox5 {
-    color: lightslategrey;
+    color: green;
 }
 
 .ptBox10 {
-    color: lightskyblue;
+    color: darkblue;
 }
 
 .ptBox20 {
@@ -266,7 +269,7 @@ p {
     text-shadow: 1px 1px 3px var(--primary-color);
 }
 
-/* Shop */
+/* Crusher */
 
 .crusherContainerMain {
     display: flex;
@@ -345,22 +348,91 @@ p {
     height: 20px;
     width: 20px;
     transform: rotate(90deg);
-    transition: all 300ms;
 }
 
-.gameRuleIcon.clickRotate {
-    transform: rotate(0);
-}
-
-.rule {
-    list-style: none;
-    text-align: center;
-    font-size: 1.4rem;
-    word-spacing: 2px;
-    padding: 5px;
-}
 
 @media screen and (max-width: 1080px) {
     .highScoreMainContainer, .gameRuleContainer, .gameRuleContainer {
         width: 25%;
 }}
+
+
+/* Tutorial */
+
+* {box-sizing:border-box}
+
+/* .titleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(1,4,2,0.8);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0
+} */
+
+.title {
+    font-size: 4.2rem;
+    font-weight: 600;
+}
+
+.tutorialContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(1,4,2,0.8);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.slideContainer {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.slideText {
+    color: white;
+    font-size: 1.4rem;
+    list-style: none;
+    padding: 8px 12px;
+    bottom: 8px;
+    margin: 5px;
+    text-align: center;
+}
+
+.slideTitle {
+    font-size: 2rem;
+    color: gold;
+    width: 500px;
+}
+
+.cross {
+    position: relative;
+    bottom: 50px;
+    left: 100px;
+    margin-left: 10px;
+    height: 20px;
+    width: 20px;
+    transform: rotate(90deg);
+    transition: all 300ms;
+    background-color: white
+}
+
+.cross:hover{
+    transform: rotate(45deg);
+}
+
+.slideImage {
+    height: 200px;
+    margin-left: 50px;
+}
