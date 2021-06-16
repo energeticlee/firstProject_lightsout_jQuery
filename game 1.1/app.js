@@ -1,7 +1,8 @@
-// Add difficulty level for highscore board
+// TODO
+// Explain game better
 // Link name and score board
-// Slow down of crusher moving in (power up)
 // create object to store base value
+// show tutorial and name input after reset
 
 /////////////////////////////////////////////////////////
 // Code Map
@@ -35,9 +36,8 @@
 //      Result Trigger      | Display Result
 
 /////////////////////////////////////////////////////////
-// Base Value
+//! Global Value
 /////////////////////////////////////////////////////////
-
 
 let stage = 1
 let attempt = 3
@@ -49,36 +49,52 @@ let gameStartCheck = false
 let crusherSpace = 0
 let highScore = 0
 let playerName = ""
+let currentSpeed = 180
 
 /////////////////////////////////////////////////////////
-// Shit Talk
+//! Shit Talk
 /////////////////////////////////////////////////////////
 
 let winner = ["Well done! Mr.Snuffles balls are saved this time!", "Yay! Mr.Snuffles get to keep his balls!"]
 let loser = ["Damn.. There goes Smowball balls", "Snip Snip, bye bye balls", "Game Over Loser"]
 let buyFailed = ["You don't have enough score!", "Can't count?", "What are you gonna pay with? Mr.Snuffles balls?"]
 
+
 /////////////////////////////////////////////////////////
-// Input Player Name
+//! Dark Mode
+/////////////////////////////////////////////////////////
+const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+}
+
+toggleSwitch.addEventListener('change', switchTheme, false);
+
+/////////////////////////////////////////////////////////
+//! Input Player Name
 /////////////////////////////////////////////////////////
 
 const nameInputContainer = $("<div>").addClass("nameInputContainer")
 const nameInputFrame = $("<div>").addClass("nameInputFrame")
 const nameInput = $("<input>").addClass("nameInput").attr({ placeholder: "Enter player name" })
 const nameInputBtn = $("<input>").attr("type", "submit").addClass("nameInputBtn").text("Enter")
-$("#playerName").append(nameInputContainer.append(nameInputFrame.append(nameInput).append(nameInputBtn)))
+$("#playerName").append(nameInputContainer.append(nameInputFrame.append(nameInput, nameInputBtn)))
 
 nameInputBtn.on("click", (event) => {
     event.preventDefault()
     playerName = nameInput.val()
     nameInput.val("")
-    highscoreNameTitle.text("Name").addClass("animate__zoomIn")
-    highscoreName.text(playerName).addClass("animate__zoomIn")
     nameInputContainer.slideUp(400)
 })
 
 /////////////////////////////////////////////////////////
-// Buttons (3 Selection [3x3, 4x4, 5x5])
+//! Buttons (3 Selection [3x3, 4x4, 5x5])
 /////////////////////////////////////////////////////////
 
 const gridBtnContainer = $("<div>").addClass("gridBtnContainer animate__animated")
@@ -86,21 +102,21 @@ const $3x3 = $("<button>").addClass("gridBtn 3x3Btn").text("3x3").attr("value", 
 const $4x4 = $("<button>").addClass("gridBtn 4x4Btn").text("4x4").attr("value", 16)
 const $5x5 = $("<button>").addClass("gridBtn 5x5Btn").text("5x5").attr("value", 25)
 
-$("body").append(gridBtnContainer.append($3x3).append($4x4).append($5x5))
+$("body").append(gridBtnContainer.append($3x3, $4x4, $5x5))
 
 
 /////////////////////////////////////////////////////////
-// Select Difficulty Stage
+//! Select Difficulty Stage
 /////////////////////////////////////////////////////////
 
 const gameDifficulty = $("<div>").addClass("gameDifficulty animate__animated hide")
 const easy = $("<button>").addClass("difBtn easy").text("Easy").attr("value", "easy")
 const noraml = $("<button>").addClass("difBtn normal").text("Normal").attr("value", "normal")
 const hard = $("<button>").addClass("difBtn hard").text("Hard").attr("value", "hard")
-$("body").append(gameDifficulty.append(easy).append(noraml).append(hard))
+$("body").append(gameDifficulty.append(easy, noraml, hard))
 
 /////////////////////////////////////////////////////////
-// Highscore
+//! Highscore
 /////////////////////////////////////////////////////////
 
 const highScoreMainContainer = $("<div>").addClass("highScoreMainContainer animate__animated")
@@ -112,10 +128,10 @@ const highscoreName = $("<p>").addClass("highScoreName animate__animated").text(
 const highScoreContainer = $("<div>").addClass("highScoreContainer animate__animated")
 const highScoreTitle = $("<h4>").addClass("highScoreTitle highScoreBoard animate__animated")
 const highscore = $("<p>").addClass("highScorePoints animate__animated")
-$("body").append(highScoreMainContainer.append(highScoreNameContainer.append(highscoreNameTitle).append(highscoreName)).append(highScoreContainer.append(highScoreTitle).append(highscore)))
+$("body").append(highScoreMainContainer.append(highScoreNameContainer.append(highscoreNameTitle, highscoreName)).append(highScoreContainer.append(highScoreTitle, highscore)))
 
 /////////////////////////////////////////////////////////
-// Game Rules
+//! Game Rules
 /////////////////////////////////////////////////////////
 
 const gameRuleContainer = $("<div>").addClass('gameRuleContainer')
@@ -129,28 +145,24 @@ $(".gameRuleTitle").on("click", () => {
     $(".gameRuleIcon").toggleClass("clickRotate")
 })
 
-// /////////////////////////////////////////////////////////
-// // Tutorial
-// /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+//! Tutorial
+///////////////////////////////////////////////////////////
 
-// titleContainer = $("<div>").addClass("titleContainer")
-// title = $("<hi>").addClass("title animate__animated").text("Save Mr.Snuffles!")
-// $("body").append(titleContainer.append(title))
-
-// Main container
+//! Main container
 tutorialMainContainer = $("<div>").addClass("container")
 crossIcon = $("<img>").addClass("cross hide").attr("src", "./cross.png")
 
-//Objective 
+//! Objective 
 slideContainer1 = $("<div>").addClass("slideContainer hide")
 slideImage1 = $("<img>").addClass("slide slideImage hide").attr("src", "./play.png")
 slideText1 = $("<ul>").addClass("slide slideText slideTitle hide").text("Game Objective")
 slideText1_list1 = $("<li>").addClass("slide slideText hide").text("Utilise all 3 trigger to clear round")
 slideText1_list2 = $("<li>").addClass("slide slideText hide").text("Clear round before the scissors reaches Mr.Snuffles!")
 slideText1_list3 = $("<li>").addClass("slide slideText hide").text("Avoid Bombs! Bomb = -1 Life, -$20")
-slideContainer1.append(slideImage1).append(slideText1.append(crossIcon).append(slideText1_list1, slideText1_list2, slideText1_list3))
+slideContainer1.append(slideImage1).append(slideText1.append(crossIcon, slideText1_list1, slideText1_list2, slideText1_list3))
 
-//Shop
+//! Shop
 slideContainer2 = $("<div>").addClass("slideContainer hide")
 slideImage2 = $("<img>").addClass("slide slideImage hide").attr("src", "./shop.png")
 slideText2 = $("<ul>").addClass("slide slideText slideTitle hide").text("Shop")
@@ -161,7 +173,7 @@ slideContainer2.append(slideImage2).append(slideText2.append(slideText2_list1, s
 $("body").append(tutorialMainContainer.append(slideContainer1, slideContainer2))
 
 /////////////////////////////////////////////////////////
-// Grid
+//! Grid
 /////////////////////////////////////////////////////////
 
 const gridContainer = $("<div>").addClass("gridContainer hide")
@@ -173,54 +185,54 @@ const playBtn = $("<button>").addClass("playBtn hide").text("Start Game!")
 
 
 /////////////////////////////////////////////////////////
-// Life
+//! Life
 /////////////////////////////////////////////////////////
 
 const lifeContainer = $("<div>").addClass("lifeContainer hide")
 const lifeTitle = $("<h3>").addClass("lifeTitle footerBoard").text("Life")
 const lifePoints = $("<p>").addClass("lifePoints")
-lifeContainer.append(lifeTitle).append(lifePoints.text(life))
+lifeContainer.append(lifeTitle, lifePoints.text(life))
 
 
 /////////////////////////////////////////////////////////
-// Stage
+//! Stage
 /////////////////////////////////////////////////////////
 
 const stageContainer = $("<div>").addClass("stageContainer hide")
 const stageTitle = $("<h3>").addClass("stageTitle footerBoard").text("Stage")
 const stagePoints = $("<p>").addClass("stagePoints")
-stageContainer.append(stageTitle).append(stagePoints.text(stage))
+stageContainer.append(stageTitle, stagePoints.text(stage))
 
 
 /////////////////////////////////////////////////////////
-// Score Board
+//! Score Board
 /////////////////////////////////////////////////////////
 
 const scoreContainer = $("<div>").addClass("scoreContainer hide")
 const scoreTitle = $("<h3>").addClass("scoreTitle footerBoard").text("Score")
 const scorePoints = $("<p>").addClass("scorePoints")
-scoreContainer.append(scoreTitle).append(scorePoints.text(score))
+scoreContainer.append(scoreTitle, scorePoints.text(score))
 
 /////////////////////////////////////////////////////////
-// Footer Container
+//! Footer Container
 /////////////////////////////////////////////////////////
 
 const footerContainer = $("<div>").addClass("footer hide")
-$("body").append(footerContainer.append(playBtn).append(lifeContainer).append(scoreContainer).append(stageContainer))
+$("body").append(footerContainer.append(playBtn, lifeContainer, scoreContainer, stageContainer))
 
 /////////////////////////////////////////////////////////
-// Smash Box
+//! Smash Box
 /////////////////////////////////////////////////////////
 
 const hostage = $("<img>").addClass("hostage hide").attr("src", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aaa79357-9476-4c1d-b9a8-6e881f2449d3/ddgdrd9-cb8622a9-d3a4-45a4-8b28-6968bbc71866.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhYTc5MzU3LTk0NzYtNGMxZC1iOWE4LTZlODgxZjI0NDlkM1wvZGRnZHJkOS1jYjg2MjJhOS1kM2E0LTQ1YTQtOGIyOC02OTY4YmJjNzE4NjYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.luPKAZzBSuD5ibste5HXotlKlI4KQyQdyvsjuCSqzJI")
 const crusherContainerMain = $("<div>").addClass("crusherContainerMain hide")
 const crusherContainer = $("<div>").addClass("crusherContainer hide")
-const crusherLeft = $("<img>").addClass("crusher crusherLeft hide").attr("src", "./pickle-rick.png")
-const crusherRight = $("<img>").addClass("crusher crusherRight hide").attr("src", "./pickle-rick.png")
-$("body").append(crusherContainerMain.append(crusherContainer.append(crusherLeft).append(hostage).append(crusherRight)))
+const crusherLeft = $("<img>").addClass("crusher crusherLeft hide").attr("src", "./whiteScissors.png")
+const crusherRight = $("<img>").addClass("crusher crusherRight hide").attr("src", "./whiteScissors.png")
+$("body").append(crusherContainerMain.append(crusherContainer.append(crusherLeft, hostage, crusherRight)))
 
 /////////////////////////////////////////////////////////
-// Result Box
+//! Result Box
 /////////////////////////////////////////////////////////
 
 const resultBoxWin = $("<div>").addClass("resultBox")
@@ -228,9 +240,12 @@ const resultBoxLose = $("<div>").addClass("resultBox")
 const resultValueWin = $("<p>").addClass("resultValue")
 const resultValueLose = $("<p>").addClass("resultValue")
 
-const buyALifeText = $("<p>").addClass("buyALife").text("Need a boost? Get one life for only $10!")
-const buyALifeButton = $("<button>").addClass("buyButton resultBtn").text("+1 Life!")
-const pushBackCrusher = $("<button>").addClass("pushBackBtn resultBtn").text("Push Scissors!")
+const buyALifeText = $("<p>").addClass("buyText")
+const buyALifeButton = $("<button>").addClass("buyButton resultBtn").text("+1 Life") //! Add ding sound
+const pushBackCrusherText = $("<p>").addClass("buyText").text(`$5 to push the scissors back`)
+const pushBackCrusher = $("<button>").addClass("pushBackBtn resultBtn").text("Push Scissors!") //! Add woosh sound
+const reduceSpeedText = $("<p>").addClass("buyText").text(`Light Delay: ${currentSpeed - (stage * 15)}ms. Prolong delay by 5ms for $5!`)
+const reduceSpeed = $("<button>").addClass("slowSpeed resultBtn").text("Slow it down") //! Add gear crank sound
 const $continue = $("<button>").addClass("continue resultBtn").text("Continue")
 
 const restart = $("<p>").addClass("restart")
@@ -238,16 +253,16 @@ const restart = $("<p>").addClass("restart")
 const resetBtnWin = $("<button>").addClass("resetBtn").text("Reset")
 const resetBtnLose = $("<button>").addClass("resetBtn").text("Reset")
 
-const resultBoxWinContainer = resultBoxWin.append(resultValueWin).append(buyALifeText).append(buyALifeButton).append(pushBackCrusher).append($continue).append(resetBtnWin)
-const resultBoxLoseContainer = resultBoxLose.append(resultValueLose).append(restart).append(resetBtnLose)
+const resultBoxWinContainer = resultBoxWin.append(resultValueWin, buyALifeText, buyALifeButton, pushBackCrusherText, pushBackCrusher, reduceSpeedText, reduceSpeed, $continue, resetBtnWin)
+const resultBoxLoseContainer = resultBoxLose.append(resultValueLose, restart, resetBtnLose)
 
 
 /////////////////////////////////////////////////////////
-// Function
+//! Function
 /////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////
-// Trigger Function // true to appear, false to hide
+//! Trigger Function // true to appear, false to hide
 /////////////////////////////////////////////////////////
 
 
@@ -326,7 +341,7 @@ $(".cross").on("click", () => {
 })
 
 /////////////////////////////////////////////////////////
-// Difficulty Stage         //      Return number of bomb
+//! Difficulty Stage         //      Return number of bomb
 /////////////////////////////////////////////////////////
 
 boardDifficulty = (difficulty) => {
@@ -343,7 +358,7 @@ boardDifficulty = (difficulty) => {
 }
 
 /////////////////////////////////////////////////////////
-// Return mixed array filled with outcome
+//! Return mixed array filled with outcome
 /////////////////////////////////////////////////////////
 
 boardMixer = (numBomb) => {
@@ -370,11 +385,11 @@ boardMixer = (numBomb) => {
 }
 
 /////////////////////////////////////////////////////////
-// Speed Control // Stage 1, 2, 3
+//! Speed Control // Stage 1, 2, 3
 /////////////////////////////////////////////////////////
 
-const speed = () => {
-    let moveSpeed = 180 - (stage * 15)
+const speed = (currentSpeed) => {
+    let moveSpeed = currentSpeed - (stage * 15)
 
     if (moveSpeed <= 60) {
         return 60
@@ -384,7 +399,7 @@ const speed = () => {
 
 
 /////////////////////////////////////////////////////////
-// Sleep
+//! Sleep
 /////////////////////////////////////////////////////////
 
 sleep = (duration) => {
@@ -397,7 +412,7 @@ sleep = (duration) => {
 }
 
 /////////////////////////////////////////////////////////
-// Difficulty Selection
+//! Difficulty Selection
 /////////////////////////////////////////////////////////
 
 const gridBtnSelection = () => {
@@ -424,7 +439,7 @@ const difBtnSelection = () => {
 difBtnSelection()
 
 /////////////////////////////////////////////////////////
-// Build Board (3 Selectin [3x3, 4x4, 5x5])
+//! Build Board (3 Selectin [3x3, 4x4, 5x5])
 /////////////////////////////////////////////////////////
 
 const buildBoard = () => {
@@ -449,7 +464,7 @@ const buildBoard = () => {
 
 
 /////////////////////////////////////////////////////////
-// Main Game Function
+//! Main Game Function
 /////////////////////////////////////////////////////////
 
 startGame = async () => {
@@ -476,7 +491,7 @@ startGame = async () => {
         let i = 0
         while (i < parseInt(gridValue) + 1) {
             crusher()
-            await sleep(speed())
+            await sleep(speed(currentSpeed))
             attemptTrigger
             //stop +1 causing color to stop running
             attempt === 0 || life === 0 ? i = gridValue + 1 :
@@ -489,7 +504,7 @@ startGame = async () => {
 }
 
 /////////////////////////////////////////////////////////
-// Crusher
+//! Crusher
 /////////////////////////////////////////////////////////
 
 crusher = () => {
@@ -497,10 +512,10 @@ crusher = () => {
         crusherSpace += 5
         crusherLeft.animate({
             left: crusherSpace
-        }, speed())
+        }, speed(currentSpeed))
         crusherRight.animate({
             right: crusherSpace
-        }, speed())
+        }, speed(currentSpeed))
     }
     if (crusherSpace === 210) {
         life = 0
@@ -513,18 +528,23 @@ pushBackCrusherFunction = () => {
     crusherSpace -= 50
     crusherLeft.animate({
         left: crusherSpace
-    }, speed())
+    }, speed(currentSpeed))
     crusherRight.animate({
         right: crusherSpace
-    }, speed())
+    }, speed(currentSpeed))
 }
 
 /////////////////////////////////////////////////////////
-// Attempt Trigger
+//! Attempt Trigger
 /////////////////////////////////////////////////////////
 
 bombDamage = () => {
     score -= 20
+    life--
+}
+
+bombDamageMin = () => {
+    score = 0
     life--
 }
 
@@ -534,7 +554,7 @@ attemptTrigger = $("body").on("keydown", () => {
         for (let y = 0; y < gridValue; y++) {
             if ($(".box" + y).attr("class").includes("itBox")) {
                 if ($(".box" + y).text() === "BOMB") {
-                    score <= 20 ? score = 0 : bombDamage()
+                    score <= 20 ? bombDamageMin() : bombDamage()
                 }
                 else if ($(".box" + y).text() === "$5") {
                     score += 5
@@ -551,13 +571,14 @@ attemptTrigger = $("body").on("keydown", () => {
 })
 
 /////////////////////////////////////////////////////////
-// Result Trigger // Trigger Pop Up after 3 attempt //
+//! Result Trigger // Trigger Pop Up after 3 attempt //
 /////////////////////////////////////////////////////////
 
 $result = () => {
     if (life > 0) {
         resultValueWin.text("$" + score)
         $(".grid").append(resultBoxWinContainer)
+        buyALifeText.text(`You currently have ${life} Life. Need a boost? Only $10!`)
         gameStartCheck = false
     }
     else {
@@ -588,15 +609,27 @@ $result = () => {
         }
     })
     pushBackCrusher.on("mousedown", () => {
-        if (score >= 10) {
+        if (score >= 5) {
             pushBackCrusherFunction()
             score -= 5
             resultValueWin.text(`$ ${score}`)
-            buyALifeText.text(`That's a relief`)
+            pushBackCrusherText.text(`Another one?`)
         }
         else {
             resultValueWin.text(`$ ${score}`)
-            buyALifeText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+            pushBackCrusherText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+        }
+    })
+    reduceSpeed.on("mousedown", () => {
+        if (score >= 5) {
+            currentSpeed += 5
+            score -= 5
+            resultValueWin.text(`$ ${score}`)
+            reduceSpeedText.text(`Current Speed: ${currentSpeed - (stage * 15)}ms. Slow it down by 5ms for $5!`)
+        }
+        else {
+            resultValueWin.text(`$ ${score}`)
+            reduceSpeedText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
         }
     })
 
@@ -605,9 +638,18 @@ $result = () => {
         life = 3
         if (score > highScore) {
             highScore = stage
+            if (highscoreName.text() === "") {
+                highscoreName.text("Player Unknown").addClass("animate__zoomIn")
+            }
+            else {
+                highscoreNameTitle.text("Name").addClass("animate__zoomIn")
+                highscoreName.text(playerName).addClass("animate__zoomIn")
+            }
+
+            highScoreTitle.text("Highscore").addClass("animate__slideInLeft")
+            highscore.text(`Stage ${highScore}`).addClass("animate__slideInLeft")
         }
-        highScoreTitle.text("Highscore").addClass("animate__slideInLeft")
-        highscore.text(`Stage ${highScore}`).addClass("animate__slideInLeft")
+
         score = 0
         stage = 1
         gridValue = 9
