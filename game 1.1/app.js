@@ -109,7 +109,7 @@ $("body").append(gridBtnContainer.append($3x3, $4x4, $5x5))
 //! Select Difficulty Stage
 /////////////////////////////////////////////////////////
 
-const gameDifficulty = $("<div>").addClass("gameDifficulty animate__animated hide")
+const gameDifficulty = $("<div>").addClass("gameDifficulty animate__animated").hide()
 const easy = $("<button>").addClass("difBtn easy").text("Easy").attr("value", "easy")
 const noraml = $("<button>").addClass("difBtn normal").text("Normal").attr("value", "normal")
 const hard = $("<button>").addClass("difBtn hard").text("Hard").attr("value", "hard")
@@ -128,7 +128,7 @@ const highscoreName = $("<p>").addClass("highScoreName animate__animated").text(
 const highScoreContainer = $("<div>").addClass("highScoreContainer animate__animated")
 const highScoreTitle = $("<h4>").addClass("highScoreTitle highScoreBoard animate__animated")
 const highscore = $("<p>").addClass("highScorePoints animate__animated")
-$("body").append(highScoreMainContainer.append(highScoreNameContainer.append(highscoreNameTitle, highscoreName)).append(highScoreContainer.append(highScoreTitle, highscore)))
+$("body").append(highScoreMainContainer.append(highScoreNameContainer.append(highscoreNameTitle, highscoreName), highScoreContainer.append(highScoreTitle, highscore)))
 
 /////////////////////////////////////////////////////////
 //! Game Rules
@@ -141,7 +141,7 @@ const gameRuleIcon = $("<img>").addClass("gameRuleIcon").attr("src", "./arrow.pn
 nameInputContainer.append(gameRuleContainer.append(gameRuleTitle.append(gameRuleIcon)))
 
 $(".gameRuleTitle").on("click", () => {
-    tutorialMainContainerAppear()
+    tutorialMainContainerAppear(true)
     $(".gameRuleIcon").toggleClass("clickRotate")
 })
 
@@ -150,25 +150,27 @@ $(".gameRuleTitle").on("click", () => {
 ///////////////////////////////////////////////////////////
 
 //! Main container
-tutorialMainContainer = $("<div>").addClass("container")
-crossIcon = $("<img>").addClass("cross hide").attr("src", "./cross.png")
+tutorialMainContainer = $("<div>").addClass("container").hide()
+crossIcon = $("<img>").addClass("cross").attr("src", "./cross.png")
 
 //! Objective 
-slideContainer1 = $("<div>").addClass("slideContainer hide")
-slideImage1 = $("<img>").addClass("slide slideImage hide").attr("src", "./play.png")
-slideText1 = $("<ul>").addClass("slide slideText slideTitle hide").text("Game Objective")
-slideText1_list1 = $("<li>").addClass("slide slideText hide").text("Utilise all 3 trigger to clear round")
-slideText1_list2 = $("<li>").addClass("slide slideText hide").text("Clear round before the scissors reaches Mr.Snuffles!")
-slideText1_list3 = $("<li>").addClass("slide slideText hide").text("Avoid Bombs! Bomb = -1 Life, -$20")
-slideContainer1.append(slideImage1).append(slideText1.append(crossIcon, slideText1_list1, slideText1_list2, slideText1_list3))
+slideContainer1 = $("<div>").addClass("slideContainer")
+slideImage1 = $("<img>").addClass("slide slideImage").attr("src", "./play.png")
+slideText1 = $("<ul>").addClass("slide slideText slideTitle").text("Game Objective")
+slideText1_list1 = $("<li>").addClass("slide slideText").text("3 Trigger each round")
+slideText1_list2 = $("<li>").addClass("slide slideText").text("Any key down to activate trigger")
+slideText1_list3 = $("<li>").addClass("slide slideText").text("Use all trigger before the scissors reaches Mr.Snuffles!")
+slideText1_list4 = $("<li>").addClass("slide slideText").text("Avoid Bombs! Bomb cost 1 Life & $20")
+slideContainer1.append(slideImage1, slideText1.append(crossIcon, slideText1_list1, slideText1_list2, slideText1_list3, slideText1_list4))
 
 //! Shop
-slideContainer2 = $("<div>").addClass("slideContainer hide")
-slideImage2 = $("<img>").addClass("slide slideImage hide").attr("src", "./shop.png")
-slideText2 = $("<ul>").addClass("slide slideText slideTitle hide").text("Shop")
-slideText2_list1 = $("<li>").addClass("slide slideText hide").text("1 Life cost $10")
-slideText2_list2 = $("<li>").addClass("slide slideText hide").text("1 PushBack cost $5")
-slideContainer2.append(slideImage2).append(slideText2.append(slideText2_list1, slideText2_list2))
+slideContainer2 = $("<div>").addClass("slideContainer")
+slideImage2 = $("<img>").addClass("slide slideImage").attr("src", "./shop.png")
+slideText2 = $("<ul>").addClass("slide slideText slideTitle").text("Shop")
+slideText2_list1 = $("<li>").addClass("slide slideText").text("1 Life cost $10")
+slideText2_list2 = $("<li>").addClass("slide slideText").text("1 PushBack cost $5")
+slideText2_list3 = $("<li>").addClass("slide slideText").text("Slowdown cost $5")
+slideContainer2.append(slideImage2, slideText2.append(slideText2_list1, slideText2_list2, slideText2_list3))
 
 $("body").append(tutorialMainContainer.append(slideContainer1, slideContainer2))
 
@@ -176,19 +178,19 @@ $("body").append(tutorialMainContainer.append(slideContainer1, slideContainer2))
 //! Grid
 /////////////////////////////////////////////////////////
 
-const gridContainer = $("<div>").addClass("gridContainer hide")
-const grid = $("<div>").addClass("grid hide")
+const gridContainer = $("<div>").addClass("gridContainer").hide()
+const grid = $("<div>").addClass("grid")
 $("body").append(gridContainer.append(grid))
 
 
-const playBtn = $("<button>").addClass("playBtn hide").text("Start Game!")
+const playBtn = $("<button>").addClass("playBtn").text("Start Game!")
 
 
 /////////////////////////////////////////////////////////
 //! Life
 /////////////////////////////////////////////////////////
 
-const lifeContainer = $("<div>").addClass("lifeContainer hide")
+const lifeContainer = $("<div>").addClass("lifeContainer")
 const lifeTitle = $("<h3>").addClass("lifeTitle footerBoard").text("Life")
 const lifePoints = $("<p>").addClass("lifePoints")
 lifeContainer.append(lifeTitle, lifePoints.text(life))
@@ -198,7 +200,7 @@ lifeContainer.append(lifeTitle, lifePoints.text(life))
 //! Stage
 /////////////////////////////////////////////////////////
 
-const stageContainer = $("<div>").addClass("stageContainer hide")
+const stageContainer = $("<div>").addClass("stageContainer")
 const stageTitle = $("<h3>").addClass("stageTitle footerBoard").text("Stage")
 const stagePoints = $("<p>").addClass("stagePoints")
 stageContainer.append(stageTitle, stagePoints.text(stage))
@@ -208,7 +210,7 @@ stageContainer.append(stageTitle, stagePoints.text(stage))
 //! Score Board
 /////////////////////////////////////////////////////////
 
-const scoreContainer = $("<div>").addClass("scoreContainer hide")
+const scoreContainer = $("<div>").addClass("scoreContainer")
 const scoreTitle = $("<h3>").addClass("scoreTitle footerBoard").text("Score")
 const scorePoints = $("<p>").addClass("scorePoints")
 scoreContainer.append(scoreTitle, scorePoints.text(score))
@@ -217,18 +219,18 @@ scoreContainer.append(scoreTitle, scorePoints.text(score))
 //! Footer Container
 /////////////////////////////////////////////////////////
 
-const footerContainer = $("<div>").addClass("footer hide")
+const footerContainer = $("<div>").addClass("footer").hide()
 $("body").append(footerContainer.append(playBtn, lifeContainer, scoreContainer, stageContainer))
 
 /////////////////////////////////////////////////////////
 //! Smash Box
 /////////////////////////////////////////////////////////
 
-const hostage = $("<img>").addClass("hostage hide").attr("src", "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aaa79357-9476-4c1d-b9a8-6e881f2449d3/ddgdrd9-cb8622a9-d3a4-45a4-8b28-6968bbc71866.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhYTc5MzU3LTk0NzYtNGMxZC1iOWE4LTZlODgxZjI0NDlkM1wvZGRnZHJkOS1jYjg2MjJhOS1kM2E0LTQ1YTQtOGIyOC02OTY4YmJjNzE4NjYucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.luPKAZzBSuD5ibste5HXotlKlI4KQyQdyvsjuCSqzJI")
-const crusherContainerMain = $("<div>").addClass("crusherContainerMain hide")
-const crusherContainer = $("<div>").addClass("crusherContainer hide")
-const crusherLeft = $("<img>").addClass("crusher crusherLeft hide").attr("src", "./whiteScissors.png")
-const crusherRight = $("<img>").addClass("crusher crusherRight hide").attr("src", "./whiteScissors.png")
+const crusherContainerMain = $("<div>").addClass("crusherContainerMain").hide()
+const hostage = $("<img>").addClass("hostage").attr("src", "./snowball.png")
+const crusherContainer = $("<div>").addClass("crusherContainer")
+const crusherLeft = $("<img>").addClass("crusher crusherLeft").attr("src", "./whiteScissors.png")
+const crusherRight = $("<img>").addClass("crusher crusherRight").attr("src", "./whiteScissors.png")
 $("body").append(crusherContainerMain.append(crusherContainer.append(crusherLeft, hostage, crusherRight)))
 
 /////////////////////////////////////////////////////////
@@ -242,9 +244,9 @@ const resultValueLose = $("<p>").addClass("resultValue")
 
 const buyALifeText = $("<p>").addClass("buyText")
 const buyALifeButton = $("<button>").addClass("buyButton resultBtn").text("+1 Life") //! Add ding sound
-const pushBackCrusherText = $("<p>").addClass("buyText").text(`$5 to push the scissors back`)
+const pushBackCrusherText = $("<p>").addClass("buyText")
 const pushBackCrusher = $("<button>").addClass("pushBackBtn resultBtn").text("Push Scissors!") //! Add woosh sound
-const reduceSpeedText = $("<p>").addClass("buyText").text(`Light Delay: ${currentSpeed - (stage * 15)}ms. Prolong delay by 5ms for $5!`)
+const reduceSpeedText = $("<p>").addClass("buyText")
 const reduceSpeed = $("<button>").addClass("slowSpeed resultBtn").text("Slow it down") //! Add gear crank sound
 const $continue = $("<button>").addClass("continue resultBtn").text("Continue")
 
@@ -266,78 +268,24 @@ const resultBoxLoseContainer = resultBoxLose.append(resultValueLose, restart, re
 /////////////////////////////////////////////////////////
 
 
-const nameInputContainerAppear = (appear) => {
-    if (nameInputContainer.attr("class").includes("hide") === appear) {
-        nameInputContainer.toggleClass("hide")
-        nameInputFrame.toggleClass("hide")
-        nameInput.toggleClass("hide")
-        nameInputBtn.toggleClass("hide")
-    }
-}
+const nameInputContainerAppear = (appear) => appear === true ? nameInputContainer.show("slow") : nameInputContainer.hide("slow")
 
-const gridBtnContainerAppear = (appear) => {
-    if (gridBtnContainer.attr("class").includes("hide") === appear) {
-        gridBtnContainer.toggleClass("hide")
-    }
-}
+const gridBtnContainerAppear = (appear) => appear === true ? gridBtnContainer.show("slow") : gridBtnContainer.hide("slow")
 
-const gameDifficultyAppear = async (appear) => {
-    if (gameDifficulty.attr("class").includes("hide") === appear) {
-        gameDifficulty.toggleClass("hide")
-    }
-}
+const gameDifficultyAppear = (appear) => appear === true ? gameDifficulty.show("slow") : gameDifficulty.hide("slow")
 
-const gridContainerAppear = (appear) => {
-    if (gridContainer.attr("class").includes("hide") === appear) {
-        gridContainer.toggleClass("hide")
-        grid.toggleClass("hide")
-    }
-}
+const gridContainerAppear = (appear) => appear === true ? gridContainer.show("slow") : gridContainer.hide("slow")
 
-const playBtnAppear = (appear) => {
-    if (playBtn.attr("class").includes("hide") === appear) {
-        playBtn.toggleClass("hide")
-    }
-}
+const playBtnAppear = (appear) => appear === true ? playBtn.show("slow") : playBtn.hide("slow")
 
-const footerContainerAppear = (appear) => {
-    if (footerContainer.attr("class").includes("hide") === appear) {
-        footerContainer.toggleClass("hide")
-        playBtn.toggleClass("hide")
-        lifeContainer.toggleClass("hide")
-        scoreContainer.toggleClass("hide")
-        stageContainer.toggleClass("hide")
-    }
-}
+const footerContainerAppear = (appear) => appear === true ? footerContainer.show() : footerContainer.hide()
 
-const crusherContainerAppear = (appear) => {
-    if (crusherContainerMain.attr("class").includes("hide") === appear) {
-        hostage.toggleClass("hide")
-        crusherContainerMain.toggleClass("hide")
-        crusherContainer.toggleClass("hide")
-        crusherLeft.toggleClass("hide")
-        crusherRight.toggleClass("hide")
-    }
-}
+const crusherContainerAppear = (appear) => appear === true ? crusherContainerMain.show() : crusherContainerMain.hide()
 
-const tutorialMainContainerAppear = () => {
-    tutorialMainContainer.toggleClass("tutorialContainer")
-    slideContainer1.toggleClass("hide")
-    slideContainer2.toggleClass("hide")
-    slideImage1.toggleClass("hide")
-    slideText1.toggleClass("hide")
-    slideText1_list1.toggleClass("hide")
-    slideText1_list2.toggleClass("hide")
-    slideText1_list3.toggleClass("hide")
-    slideImage2.toggleClass("hide")
-    slideText2.toggleClass("hide")
-    slideText2_list1.toggleClass("hide")
-    slideText2_list2.toggleClass("hide")
-    crossIcon.toggleClass("hide")
-}
+const tutorialMainContainerAppear = (appear) => appear === true ? tutorialMainContainer.show() : tutorialMainContainer.hide()
 
 $(".cross").on("click", () => {
-    tutorialMainContainerAppear()
+    tutorialMainContainerAppear(false)
 })
 
 /////////////////////////////////////////////////////////
@@ -348,7 +296,6 @@ boardDifficulty = (difficulty) => {
     if (difficulty === easy.attr("value")) {
         return numBomb = Math.ceil(0.2 * gridValue)
     }
-
     if (difficulty === noraml.attr("value")) {
         return numBomb = Math.ceil(0.3 * gridValue)
     }
@@ -433,6 +380,7 @@ const difBtnSelection = () => {
         gridBtnContainerAppear(false)
         gameDifficultyAppear(false)
         nameInputContainerAppear(false)
+        playBtnAppear(true)
         buildBoard()
     })
 }
@@ -579,6 +527,8 @@ $result = () => {
         resultValueWin.text("$" + score)
         $(".grid").append(resultBoxWinContainer)
         buyALifeText.text(`You currently have ${life} Life. Need a boost? Only $10!`)
+        reduceSpeedText.text(`Light Delay: ${currentSpeed - (stage * 15)}ms. Prolong delay by 5ms for $5!`)
+        pushBackCrusherText.text(`$5 to push the scissors back`)
         gameStartCheck = false
     }
     else {
