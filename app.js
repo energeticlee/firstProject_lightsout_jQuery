@@ -149,7 +149,7 @@ crossIcon = $("<img>").addClass("cross").attr("src", "./picture/cross.png")
 
 //! Objective 
 slideContainer1 = $("<div>").addClass("slideContainer")
-slideImage1 = $("<img>").addClass("slide slideImage").attr("src", "./picture/play.png")
+slideImage1 = $("<img>").addClass("slide slideImage").attr("src", "./picture/play.PNG")
 slideText1 = $("<ul>").addClass("slide slideText slideTitle").text("Game Objective")
 slideText1_list1 = $("<li>").addClass("slide slideText").text("3 Trigger each round")
 slideText1_list2 = $("<li>").addClass("slide slideText").text("Any key down to activate trigger")
@@ -159,7 +159,7 @@ slideContainer1.append(slideImage1, slideText1.append(crossIcon, slideText1_list
 
 //! Shop
 slideContainer2 = $("<div>").addClass("slideContainer")
-slideImage2 = $("<img>").addClass("slide slideImage").attr("src", "./picture/shop.png")
+slideImage2 = $("<img>").addClass("slide slideImage").attr("src", "./picture/shop.PNG")
 slideText2 = $("<ul>").addClass("slide slideText slideTitle").text("Shop")
 slideText2_list1 = $("<li>").addClass("slide slideText").text("1 Life cost $10")
 slideText2_list2 = $("<li>").addClass("slide slideText").text("1 PushBack cost $5")
