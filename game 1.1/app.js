@@ -1,9 +1,3 @@
-// TODO
-// Explain game better
-// Link name and score board
-// create object to store base value
-// show tutorial and name input after reset
-
 /////////////////////////////////////////////////////////
 // Code Map
 /////////////////////////////////////////////////////////
@@ -292,7 +286,7 @@ $(".cross").on("click", () => {
 //! Difficulty Stage         //      Return number of bomb
 /////////////////////////////////////////////////////////
 
-boardDifficulty = (difficulty) => {
+const boardDifficulty = (difficulty) => {
     if (difficulty === easy.attr("value")) {
         return numBomb = Math.ceil(0.2 * gridValue)
     }
@@ -308,7 +302,7 @@ boardDifficulty = (difficulty) => {
 //! Return mixed array filled with outcome
 /////////////////////////////////////////////////////////
 
-boardMixer = (numBomb) => {
+const boardMixer = (numBomb) => {
     const arr = Array(parseInt(gridValue)).fill("?")
 
     const remainder = arr.length - parseInt(numBomb)
@@ -349,7 +343,7 @@ const speed = (currentSpeed) => {
 //! Sleep
 /////////////////////////////////////////////////////////
 
-sleep = (duration) => {
+const sleep = (duration) => {
     return new Promise((accept) => {
         setTimeout(() => {
             accept()
@@ -486,30 +480,34 @@ pushBackCrusherFunction = () => {
 //! Attempt Trigger
 /////////////////////////////////////////////////////////
 
-bombDamage = () => {
+const bombDamage = () => {
     score -= 20
     life--
 }
 
-bombDamageMin = () => {
+const bombDamageMin = () => {
     score = 0
     life--
 }
 
-attemptTrigger = $("body").on("keydown", () => {
+const triggerOutcome = () => {
+    for (let y = 0; y < gridValue; y++) {
+        if ($(".box" + y).attr("class").includes("itBox")) {
+            if ($(".box" + y).text() === "BOMB") {
+                score <= 20 ? bombDamageMin() : bombDamage()
+            }
+            else if ($(".box" + y).text() === "$5") {
+                score += 5
+            }
+            else ($(".box" + y).text() === "$10") ? score += 10 : score += 20
+        }
+    }
+}
+
+const attemptTrigger = $("body").on("keydown", () => {
     if (gameStartCheck === true) {
         attempt--
-        for (let y = 0; y < gridValue; y++) {
-            if ($(".box" + y).attr("class").includes("itBox")) {
-                if ($(".box" + y).text() === "BOMB") {
-                    score <= 20 ? bombDamageMin() : bombDamage()
-                }
-                else if ($(".box" + y).text() === "$5") {
-                    score += 5
-                }
-                else ($(".box" + y).text() === "$10") ? score += 10 : score += 20
-            }
-        }
+        triggerOutcome()
         if (attempt === 0 || life === 0) {
             $result()
         }
@@ -521,6 +519,61 @@ attemptTrigger = $("body").on("keydown", () => {
 /////////////////////////////////////////////////////////
 //! Result Trigger // Trigger Pop Up after 3 attempt //
 /////////////////////////////////////////////////////////
+
+const continueBtn = () => {
+    $continue.on("mousedown", () => {
+        attempt = 3;
+        stage++
+        resultBoxWinContainer.remove()
+        $(".boxText").removeClass("bombBox ptBox5 ptBox10 ptBox20")
+        $(".box").removeClass("itBox")
+        gameStartCheck = true
+        startGame()
+    })
+}
+
+const buyALifeBtn = () => {
+    buyALifeButton.on("mousedown", () => {
+        if (score >= 10) {
+            life++
+            score -= 10
+            resultValueWin.text(`$ ${score}`)
+            buyALifeText.text(`Great! You got ${life} life now! Another one?`)
+        }
+        else {
+            resultValueWin.text(`$ ${score}`)
+            buyALifeText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+        }
+    })
+}
+const pushBackCrusherBtn = () => {
+    pushBackCrusher.on("mousedown", () => {
+        if (score >= 5) {
+            pushBackCrusherFunction()
+            score -= 5
+            resultValueWin.text(`$ ${score}`)
+            pushBackCrusherText.text(`Another one?`)
+        }
+        else {
+            resultValueWin.text(`$ ${score}`)
+            pushBackCrusherText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+        }
+    })
+}
+const reduceSpeedBtn = () => {
+    reduceSpeed.on("mousedown", () => {
+        if (score >= 5) {
+            currentSpeed += 5
+            score -= 5
+            resultValueWin.text(`$ ${score}`)
+            reduceSpeedText.text(`Current Speed: ${currentSpeed - (stage * 15)}ms. Slow it down by 5ms for $5!`)
+        }
+        else {
+            resultValueWin.text(`$ ${score}`)
+            reduceSpeedText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
+        }
+    })
+}
 
 $result = () => {
     if (life > 0) {
@@ -537,51 +590,10 @@ $result = () => {
         restart.text(loser[Math.floor(Math.random() * loser.length)])
         gameStartCheck = false
     }
-    $continue.on("mousedown", () => {
-        attempt = 3;
-        stage++
-        resultBoxWinContainer.remove()
-        $(".boxText").removeClass("bombBox ptBox5 ptBox10 ptBox20")
-        $(".box").removeClass("itBox")
-        gameStartCheck = true
-        startGame()
-    })
-    buyALifeButton.on("mousedown", () => {
-        if (score >= 10) {
-            life++
-            score -= 10
-            resultValueWin.text(`$ ${score}`)
-            buyALifeText.text(`Great! You got ${life} life now! Another one?`)
-        }
-        else {
-            resultValueWin.text(`$ ${score}`)
-            buyALifeText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
-        }
-    })
-    pushBackCrusher.on("mousedown", () => {
-        if (score >= 5) {
-            pushBackCrusherFunction()
-            score -= 5
-            resultValueWin.text(`$ ${score}`)
-            pushBackCrusherText.text(`Another one?`)
-        }
-        else {
-            resultValueWin.text(`$ ${score}`)
-            pushBackCrusherText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
-        }
-    })
-    reduceSpeed.on("mousedown", () => {
-        if (score >= 5) {
-            currentSpeed += 5
-            score -= 5
-            resultValueWin.text(`$ ${score}`)
-            reduceSpeedText.text(`Current Speed: ${currentSpeed - (stage * 15)}ms. Slow it down by 5ms for $5!`)
-        }
-        else {
-            resultValueWin.text(`$ ${score}`)
-            reduceSpeedText.text(`${buyFailed[Math.floor(Math.random() * buyFailed.length)]}`)
-        }
-    })
+    continueBtn()
+    buyALifeBtn()
+    pushBackCrusherBtn()
+    reduceSpeedBtn()
 
     $(".resetBtn").on("mousedown", () => {
         attempt = 3
