@@ -45,6 +45,10 @@ let highScore = 0
 let playerName = ""
 let currentSpeed = 180
 
+const fart = new Audio("./picture/fart.mp3")
+const win = new Audio("./picture/win.mp3")
+const fail = new Audio("./picture/fail.mp3")
+const coin = new Audio("./picture/coin.mp3")
 /////////////////////////////////////////////////////////
 //! Shit Talk
 /////////////////////////////////////////////////////////
@@ -362,7 +366,6 @@ const gridBtnSelection = () => {
         const target = $(event.target)
         $(".gridBtn").removeClass("btnClicked")
         target.addClass("btnClicked")
-
         gameDifficultyAppear(true)
     })
 }
@@ -493,11 +496,13 @@ const triggerOutcome = () => {
         if ($(".box" + y).attr("class").includes("itBox")) {
             if ($(".box" + y).text() === "BOMB") {
                 score <= 20 ? bombDamageMin() : bombDamage()
+                fart.play()
             }
-            else if ($(".box" + y).text() === "$5") {
-                score += 5
+            else if ($(".box" + y).text() === "$20") {
+                score += 20
+                coin.play()
             }
-            else ($(".box" + y).text() === "$10") ? score += 10 : score += 20
+            else ($(".box" + y).text() === "$10") ? score += 10 : score += 5
         }
     }
 }
@@ -581,12 +586,14 @@ $result = () => {
         reduceSpeedText.text(`Light Delay: ${currentSpeed - (stage * 15)}ms. Prolong delay by 5ms for $5!`)
         pushBackCrusherText.text(`$5 to push the scissors back`)
         gameStartCheck = false
+        win.play()
     }
     else {
         resultValueLose.text("$" + score)
         $(".grid").append(resultBoxLoseContainer)
         restart.text(loser[Math.floor(Math.random() * loser.length)])
         gameStartCheck = false
+        fail.play()
     }
     continueBtn()
     buyALifeBtn()
