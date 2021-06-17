@@ -152,7 +152,7 @@ slideContainer1 = $("<div>").addClass("slideContainer")
 slideImage1 = $("<img>").addClass("slide slideImage").attr("src", "./picture/play.PNG")
 slideText1 = $("<ul>").addClass("slide slideText slideTitle").text("Game Objective")
 slideText1_list1 = $("<li>").addClass("slide slideText").text("3 Trigger each round")
-slideText1_list2 = $("<li>").addClass("slide slideText").text("Any key down to activate trigger")
+slideText1_list2 = $("<li>").addClass("slide slideText").text("Press spacebar to activate trigger")
 slideText1_list3 = $("<li>").addClass("slide slideText").text("Use all trigger before the scissors reaches Mr.Snuffles!")
 slideText1_list4 = $("<li>").addClass("slide slideText").text("Avoid Bombs! Bomb cost 1 Life & $20")
 slideContainer1.append(slideImage1, slideText1.append(crossIcon, slideText1_list1, slideText1_list2, slideText1_list3, slideText1_list4))
@@ -403,8 +403,6 @@ const buildBoard = () => {
     })
 }
 
-
-
 /////////////////////////////////////////////////////////
 //! Main Game Function
 /////////////////////////////////////////////////////////
@@ -504,8 +502,8 @@ const triggerOutcome = () => {
     }
 }
 
-const attemptTrigger = $("body").on("keydown", () => {
-    if (gameStartCheck === true) {
+const attemptTrigger = $("body").on("keydown", (event) => {
+    if (gameStartCheck === true & event.originalEvent.code === "Space") {
         attempt--
         triggerOutcome()
         if (attempt === 0 || life === 0) {
