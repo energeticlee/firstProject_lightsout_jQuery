@@ -233,7 +233,7 @@ body {
 }
 
 .bombBox {
-    content: url(./bomb.png);
+    content: url(./picture/bomb.png);
     height: 50px;
     width: 50px;
 }

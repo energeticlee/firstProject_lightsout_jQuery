@@ -130,7 +130,7 @@ $("body").append(highScoreMainContainer.append(highScoreNameContainer.append(hig
 
 const gameRuleContainer = $("<div>").addClass('gameRuleContainer')
 const gameRuleTitle = $("<ul>").addClass("gameRuleTitle").text("Game Rules")
-const gameRuleIcon = $("<img>").addClass("gameRuleIcon").attr("src", "./arrow.png")
+const gameRuleIcon = $("<img>").addClass("gameRuleIcon").attr("src", "./picture/arrow.png")
 
 nameInputContainer.append(gameRuleContainer.append(gameRuleTitle.append(gameRuleIcon)))
 
@@ -145,11 +145,11 @@ $(".gameRuleTitle").on("click", () => {
 
 //! Main container
 tutorialMainContainer = $("<div>").addClass("container").hide()
-crossIcon = $("<img>").addClass("cross").attr("src", "./cross.png")
+crossIcon = $("<img>").addClass("cross").attr("src", "./picture/cross.png")
 
 //! Objective 
 slideContainer1 = $("<div>").addClass("slideContainer")
-slideImage1 = $("<img>").addClass("slide slideImage").attr("src", "./play.png")
+slideImage1 = $("<img>").addClass("slide slideImage").attr("src", "./picture/play.png")
 slideText1 = $("<ul>").addClass("slide slideText slideTitle").text("Game Objective")
 slideText1_list1 = $("<li>").addClass("slide slideText").text("3 Trigger each round")
 slideText1_list2 = $("<li>").addClass("slide slideText").text("Any key down to activate trigger")
@@ -159,7 +159,7 @@ slideContainer1.append(slideImage1, slideText1.append(crossIcon, slideText1_list
 
 //! Shop
 slideContainer2 = $("<div>").addClass("slideContainer")
-slideImage2 = $("<img>").addClass("slide slideImage").attr("src", "./shop.png")
+slideImage2 = $("<img>").addClass("slide slideImage").attr("src", "./picture/shop.png")
 slideText2 = $("<ul>").addClass("slide slideText slideTitle").text("Shop")
 slideText2_list1 = $("<li>").addClass("slide slideText").text("1 Life cost $10")
 slideText2_list2 = $("<li>").addClass("slide slideText").text("1 PushBack cost $5")
@@ -221,10 +221,10 @@ $("body").append(footerContainer.append(playBtn, lifeContainer, scoreContainer, 
 /////////////////////////////////////////////////////////
 
 const crusherContainerMain = $("<div>").addClass("crusherContainerMain").hide()
-const hostage = $("<img>").addClass("hostage").attr("src", "./snowball.png")
+const hostage = $("<img>").addClass("hostage").attr("src", "./picture/snowball.png")
 const crusherContainer = $("<div>").addClass("crusherContainer")
-const crusherLeft = $("<img>").addClass("crusher crusherLeft").attr("src", "./whiteScissors.png")
-const crusherRight = $("<img>").addClass("crusher crusherRight").attr("src", "./whiteScissors.png")
+const crusherLeft = $("<img>").addClass("crusher crusherLeft").attr("src", "./picture/whiteScissors.png")
+const crusherRight = $("<img>").addClass("crusher crusherRight").attr("src", "./picture/whiteScissors.png")
 $("body").append(crusherContainerMain.append(crusherContainer.append(crusherLeft, hostage, crusherRight)))
 
 /////////////////////////////////////////////////////////
