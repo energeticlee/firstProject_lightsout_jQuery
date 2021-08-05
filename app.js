@@ -53,9 +53,9 @@ const coin = new Audio("./picture/coin.mp3")
 //! Shit Talk
 /////////////////////////////////////////////////////////
 
-let winner = ["Well done! Mr.Snuffles balls are saved this time!", "Yay! Mr.Snuffles get to keep his balls!"]
-let loser = ["Damn.. There goes Smowball balls", "Snip Snip, bye bye balls", "Game Over Loser"]
-let buyFailed = ["You don't have enough score!", "Can't count?", "What are you gonna pay with? Mr.Snuffles balls?"]
+let winner = ["Well done!", "Great Job"]
+let loser = ["Game Over", "Better luck next time!"]
+let buyFailed = ["You don't have enough score!", "Can't count?"]
 
 
 /////////////////////////////////////////////////////////
@@ -428,6 +428,7 @@ startGame = async () => {
             $(".boxText" + a).addClass("ptBox10")
         } else $(".boxText" + a).addClass("ptBox20")
     }
+
     gameStartCheck = true
 
     while (attempt > 0 && life > 0) {

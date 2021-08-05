@@ -21,7 +21,7 @@ Slow Down = Extend delay time of lights
 
 
 # Most challenging part of the project
-Time delay for the box to run before running next line of code
+Making the light move down the grid.
 
 
 # Further work and next steps
